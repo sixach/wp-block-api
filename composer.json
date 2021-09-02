@@ -18,12 +18,6 @@
 	"require": {
 		"php": ">=7.2"
 	},
-	"repositories": [
-		{
-		  "type": "vcs",
-		  "url":  "git@github.com:sixach/wp-block-api.git"
-		}
-	],
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
 		"wp-coding-standards/wpcs": "^2.3.0",
