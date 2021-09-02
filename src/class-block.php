@@ -1,4 +1,20 @@
 <?php
+/**
+ * Block class file.
+ *
+ * The class in this file represents the default implementation
+ * of a simple block class. Particularly, the class implements a
+ * simple initialization function that adds the registration
+ * function to the `init` WordPress hook. The registration function
+ * registers the block following the Gutenberg block registration API.
+ *
+ * @link          https://sixa.ch
+ * @author        sixa AG
+ * @since         1.0.0
+ *
+ * @package       Sixa_Blocks
+ * @subpackage    Sixa_Blocks\Block
+ */
 
 namespace Sixa_Blocks;
 
@@ -7,44 +23,51 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-abstract class Block {
+if ( ! class_exists( Block::class ) ) :
 
-    /**
-     * Record if the block was initialized to make sure it is
-     * initialized at most once.
-     *
-     * @since    1.0.0
-     * @var      bool
-     */
-    private static $was_initialized = false;
+	/**
+	 * Block Class containing default implementation.
+	 */
+	abstract class Block {
 
-    /**
-     * Initialize the block.
-     * Set up the WordPress hook to register the block.
-     *
-     * @since     1.0.0
-     * @return    void
-     */
-    public static function init(): void {
-        // Bail early if the block was already initialized.
-        if ( static::$was_initialized ) {
-            return;
-        }
+		/**
+		 * Record if the block was initialized to make sure it is
+		 * initialized at most once.
+		 *
+		 * @since    1.0.0
+		 * @var      bool
+		 */
+		private static $was_initialized = false;
 
-        add_action( 'init', array( static::class, 'register' ) );
-    }
+		/**
+		 * Initialize the block.
+		 * Set up the WordPress hook to register the block.
+		 *
+		 * @since     1.0.0
+		 * @return    void
+		 */
+		public static function init(): void {
+			// Bail early if the block was already initialized.
+			if ( static::$was_initialized ) {
+				return;
+			}
 
-    /**
-     * Registers the block using the metadata loaded from the `block.json` file.
-     * Behind the scenes, it registers also all assets so they can be enqueued
-     * through the block editor in the corresponding context.
-     *
-     * @see       https://developer.wordpress.org/block-editor/tutorials/block-tutorial/writing-your-first-block-type/
-     * @since     1.0.0
-     * @return    void
-     */
-    public static function register(): void {
-        register_block_type_from_metadata( dirname( static::class ) );
-    }
+			add_action( 'init', array( static::class, 'register' ) );
+		}
 
-}
+		/**
+		 * Registers the block using the metadata loaded from the `block.json` file.
+		 * Behind the scenes, it also registers all assets so they can be enqueued
+		 * through the block editor in the corresponding context.
+		 *
+		 * @see       https://developer.wordpress.org/block-editor/tutorials/block-tutorial/writing-your-first-block-type/
+		 * @since     1.0.0
+		 * @return    void
+		 */
+		public static function register(): void {
+			register_block_type_from_metadata( dirname( static::class ) );
+		}
+
+	}
+
+endif;
