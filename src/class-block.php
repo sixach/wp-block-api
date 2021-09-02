@@ -27,11 +27,11 @@ abstract class Block {
      */
     public static function init(): void {
         // Bail early if the block was already initialized.
-        if ( self::$was_initialized ) {
+        if ( static::$was_initialized ) {
             return;
         }
 
-        add_action( 'init', array( __CLASS__, 'register' ) );
+        add_action( 'init', array( static::class, 'register' ) );
     }
 
     /**
@@ -44,7 +44,7 @@ abstract class Block {
      * @return    void
      */
     public static function register(): void {
-        register_block_type_from_metadata( dirname( __DIR__ ) );
+        register_block_type_from_metadata( dirname( static::class ) );
     }
 
 }
