@@ -54,8 +54,8 @@ if ( ! class_exists( WooCommerce_Block::class ) ) :
 		/**
 		 * Return `true` if WooCommerce is installed and `false` otherwise.
 		 *
-		 * @since   1.0.0
-		 * @return  bool
+		 * @since     1.0.0
+		 * @return    bool
 		 */
 		private static function is_woocommerce(): bool {
 			// This statement prevents from producing fatal errors,
