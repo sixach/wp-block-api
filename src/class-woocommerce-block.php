@@ -60,7 +60,7 @@ if ( ! class_exists( WooCommerce_Block::class ) ) :
 		private static function is_woocommerce(): bool {
 			// This statement prevents from producing fatal errors,
 			// in case the WooCommerce plugin is not activated on the site.
-			$woocommerce_plugin = apply_filters( 'sixa_blocks_woocommerce_path', 'woocommerce/woocommerce.php' );
+			$woocommerce_plugin     = apply_filters( 'sixa_blocks_woocommerce_path', 'woocommerce/woocommerce.php' );
 			$subsite_active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
 			$network_active_plugins = apply_filters( 'active_plugins', get_site_option( 'active_sitewide_plugins' ) );
 
