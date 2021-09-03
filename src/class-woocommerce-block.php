@@ -43,11 +43,12 @@ if ( ! class_exists( WooCommerce_Block::class ) ) :
 		 * @return    void
 		 */
 		public static function init(): void {
-			// Bail early if WooCommerce is not activated
+			// Bail early if WooCommerce is not activated.
 			if ( ! static::is_woocommerce() ) {
 				return;
 			}
 
+			// Initialize the block from the parent function.
 			parent::init();
 		}
 
