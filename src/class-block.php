@@ -64,13 +64,7 @@ if ( ! class_exists( Block::class ) ) :
 		 * @since     1.0.0
 		 * @return    void
 		 */
-		public static function register(): void {
-			$reflector       = new \ReflectionClass(static::class );
-			$file_name       = $reflector->getFileName();
-			$block_json_path = dirname( $file_name, 2 );
-
-			register_block_type_from_metadata( $block_json_path );
-		}
+		abstract public static function register(): void;
 
 	}
 
