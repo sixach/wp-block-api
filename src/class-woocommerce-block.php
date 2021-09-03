@@ -3,10 +3,9 @@
  * Block class file.
  *
  * The class in this file represents the default implementation
- * of a simple block class. Particularly, the class implements a
- * simple initialization function that adds the registration
- * function to the `init` WordPress hook. The registration function
- * registers the block following the Gutenberg block registration API.
+ * of a simple WooCommerce block class. In addition to the default
+ * implementation from `Block`, this class implements a check to
+ * conditionally register blocks only if WooCommerce is installed.
  *
  * @link          https://sixa.ch
  * @author        sixa AG
@@ -26,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( WooCommerce_Block::class ) ) :
 
 	/**
-	 * Block Class containing default implementation.
+	 * WooCommerce Block Class containing the default implementation.
 	 */
 	abstract class WooCommerce_Block extends Block {
 
