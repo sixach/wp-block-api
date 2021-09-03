@@ -39,7 +39,7 @@ if ( ! class_exists( WooCommerce_Block::class ) ) :
 		 */
 		public static function init(): void {
 			// Bail early if WooCommerce is not activated
-			if ( ! is_woocommerce() ) {
+			if ( ! function_exists( 'is_woocommerce' ) || ! is_woocommerce() ) {
 				return;
 			}
 
