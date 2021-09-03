@@ -32,7 +32,12 @@ if ( ! class_exists( WooCommerce_Block::class ) ) :
 
 		/**
 		 * Initialize the block.
-		 * Set up the WordPress hook to register the block.
+		 * Check if WooCommerce is installed and skip registration
+		 * if it is not.
+		 *
+		 * This `init` function is an extension of `init` in `Block`.
+		 * Call the parent `init` function after performing the WooCommerce
+		 * installation check.
 		 *
 		 * @since     1.0.0
 		 * @return    void
@@ -47,7 +52,7 @@ if ( ! class_exists( WooCommerce_Block::class ) ) :
 		}
 
 		/**
-		 * Query WooCommerce activation.
+		 * Return `true` if WooCommerce is installed and `false` otherwise.
 		 *
 		 * @since   1.0.0
 		 * @return  bool
@@ -55,14 +60,11 @@ if ( ! class_exists( WooCommerce_Block::class ) ) :
 		private static function is_woocommerce(): bool {
 			// This statement prevents from producing fatal errors,
 			// in case the WooCommerce plugin is not activated on the site.
-			$woocommerce_plugin = apply_filters( 'sixa_add_to_cart_block_woocommerce_path', 'woocommerce/woocommerce.php' );
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+			$woocommerce_plugin = apply_filters( 'sixa_blocks_woocommerce_path', 'woocommerce/woocommerce.php' );
 			$subsite_active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$network_active_plugins = apply_filters( 'active_plugins', get_site_option( 'active_sitewide_plugins' ) );
 
 			// Bail early in case the plugin is not activated on the website.
-			// phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 			if ( ( empty( $subsite_active_plugins ) || ! in_array( $woocommerce_plugin, $subsite_active_plugins ) ) && ( empty( $network_active_plugins ) || ! array_key_exists( $woocommerce_plugin, $network_active_plugins ) ) ) {
 				return false;
 			}
