@@ -19,7 +19,7 @@ if ( ! class_exists( Extension::class ) ) :
 			}
 
 			if ( ! isset( static::$path ) ) {
-				throw new \LogicException( sprintf( '%s must have a $name', static::class ) );
+				throw new \LogicException( sprintf( '%s must have a $path', static::class ) );
 			}
 		}
 
