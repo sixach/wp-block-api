@@ -13,6 +13,16 @@ if ( ! class_exists( Extension::class ) ) :
 		private static string $name;
 		private static string $path;
 
+		public static function init(): void {
+			if ( ! isset( static::$name ) ) {
+				throw new \LogicException( sprintf( '%s must have a $name', static::class ) );
+			}
+
+			if ( ! isset( static::$path ) ) {
+				throw new \LogicException( sprintf( '%s must have a $name', static::class ) );
+			}
+		}
+
 	}
 
 endif;
