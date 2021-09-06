@@ -10,8 +10,8 @@ if ( ! class_exists( Extension::class ) ) :
 
 	abstract class Extension {
 
-		private static string $name;
-		private static string $path;
+		protected static string $name;
+		protected static string $path;
 
 		public static function init(): void {
 			if ( ! isset( static::$name ) ) {
