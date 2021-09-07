@@ -43,31 +43,41 @@ if ( ! class_exists( Extension::class ) ) :
 			}
 		}
 
-		public static function get_build_dir_url(): string {
-			return plugin_dir_url( static::get_build_dir_path() );
-		}
-
+		/**
+		 * @return string
+		 */
 		public static function get_build_dir_path(): string {
 			return trailingslashit( sprintf( '%sbuild', trailingslashit( dirname( static::$path, 2 ) ) ) );
 		}
 
+		/**
+		 * @param $file_name
+		 * @return string
+		 */
 		public static function get_build_file_path( $file_name ) {
 			return sprintf( '%s%s', static::get_build_dir_path(), $file_name );
 		}
 
+		/**
+		 * @param $file_name
+		 * @return string
+		 */
 		public static function get_build_file_url( $file_name ) {
 			return sprintf( '%sbuild/%s', plugin_dir_url( dirname( static::$path ) ), $file_name );
 		}
 
-		public static function get_build_asset_url( $file_name ): string {
-			return static::get_build_file_url( static::get_asset_file_name( $file_name ) );
-
-		}
-
+		/**
+		 * @param $file_name
+		 * @return string
+		 */
 		public static function get_build_asset_path( $file_name ) {
 			return static::get_build_file_path( static::get_asset_file_name( $file_name ) );
 		}
 
+		/**
+		 * @param $build_file_name
+		 * @return string
+		 */
 		public static function get_asset_file_name( $build_file_name ) {
 			$file_name_parts = explode( '.', $build_file_name );
 
@@ -125,20 +135,6 @@ if ( ! class_exists( Extension::class ) ) :
 				$asset_dependencies['version'] ?? null,
 				false
 			);
-		}
-
-		public static function asset_dependencies( $file_name ) {
-			$file_path = static::get_build_file_url( $file_name );
-			$asset_path = static::get_build_asset_url( $file_name );
-
-			$asset = file_exists( $asset_path )
-				? require $asset_path
-				: array(
-					'dependencies' => array(),
-					'version'      => filemtime( $file_path ),
-				);
-
-			return $asset;
 		}
 
 		public static function get_asset_dependencies( $file_name ) {
