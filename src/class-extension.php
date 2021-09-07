@@ -29,15 +29,15 @@ if ( ! class_exists( Extension::class ) ) :
 		public static function enqueue_assets(): void {
 			$implemented_interfaces = class_implements( static::class );
 
-			if ( in_array( \With_Editor_Assets::class, $implemented_interfaces ) ) {
+			if ( in_array( Extension_With_Editor_Assets::class, $implemented_interfaces ) ) {
 				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_editor_assets' ), 0 );
 			}
 
-			if ( in_array( \With_Block_Assets::class, $implemented_interfaces ) ) {
+			if ( in_array( Extension_With_Block_Assets::class, $implemented_interfaces ) ) {
 				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_block_assets' ), 0 );
 			}
 
-			if ( in_array( \With_Frontend_Assets::class, $implemented_interfaces ) ) {
+			if ( in_array( Extension_With_Frontend_Assets::class, $implemented_interfaces ) ) {
 				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_frontend_assets' ), 0 );
 			}
 		}

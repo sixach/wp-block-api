@@ -1,7 +1,9 @@
 <?php
 
+namespace Sixa_Blocks;
 
-interface With_Block_Assets {
+
+interface Extension_With_Block_Assets {
 
 	public static function enqueue_block_assets(): void;
 
