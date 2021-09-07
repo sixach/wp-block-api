@@ -14,10 +14,6 @@ if ( ! class_exists( Extension::class ) ) :
 		protected static string $name;
 		protected static string $path;
 
-		protected static array $editor_assets = array();
-		protected static array $block_assets = array();
-		protected static array $frontend_assets = array();
-
 		public static function init(): void {
 			if ( ! isset( static::$name ) ) {
 				throw new \LogicException( sprintf( '%s must have a $name', static::class ) );
@@ -31,16 +27,18 @@ if ( ! class_exists( Extension::class ) ) :
 		}
 
 		public static function enqueue_assets(): void {
-			if ( count( static::$editor_assets ) > 0 ) {
+			$implemented_interfaces = class_implements( static::class );
+
+			if ( in_array( \With_Editor_Assets::class, $implemented_interfaces ) ) {
 				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_editor_assets' ), 0 );
 			}
 
-			if ( count( static::$block_assets ) > 0 ) {
-				add_action( 'enqueue_block_assets', array( static::class, 'enqueue_block_assets' ), 0 );
+			if ( in_array( \With_Block_Assets::class, $implemented_interfaces ) ) {
+				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_block_assets' ), 0 );
 			}
 
-			if ( count( static::$frontend_assets ) ) {
-				static::enqueue_frontend_assets();
+			if ( in_array( \With_Frontend_Assets::class, $implemented_interfaces ) ) {
+				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_frontend_assets' ), 0 );
 			}
 		}
 
@@ -123,27 +121,6 @@ if ( ! class_exists( Extension::class ) ) :
 			$asset_parts = array( $file_name_parts[0], 'asset', 'php' );
 			$asset_name = implode( '.', $asset_parts );
 			return $asset_name;
-		}
-
-		/**
-		 * Enqueue for editor.
-		 */
-		public static function enqueue_editor_assets(): void {
-			static::enqueue_script( 'index.js' );
-		}
-
-		/**
-		 * Enqueue for editor and frontend.
-		 */
-		public static function enqueue_block_assets(): void {
-			static::enqueue_style( 'style-index.css' );
-		}
-
-		/**
-		 * Enqueue for frontend.
-		 */
-		public static function enqueue_frontend_assets(): void {
-			print( 'enqueue_frontend_assets <br><br>' );
 		}
 
 		/**
