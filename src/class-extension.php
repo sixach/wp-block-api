@@ -154,11 +154,12 @@ if ( ! class_exists( Extension::class ) ) :
 		 * relevant paths, names, and parameters.
 		 *
 		 * @since     1.0.0
-		 * @param     $file_name    Name of the build file to be enqueued.
+		 * @param     string    $file_name    Name of the build file to be enqueued.
+		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    void
 		 */
-		public static function enqueue_script( $file_name ): void {
-			$asset_path = static::get_build_file_url( $file_name );
+		public static function enqueue_script( $file_name, $build_dir = API_Constants::BUILD_DIR ): void {
+			$asset_path = static::get_build_file_url( $file_name, $build_dir );
 			$asset_dependencies = static::get_asset_dependencies( $file_name );
 
 			wp_enqueue_script(
@@ -178,7 +179,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * relevant paths, names, and parameters.
 		 *
 		 * @since     1.0.0
-		 * @param     $file_name    Name of the build file to be enqueued.
+		 * @param     string     $file_name    Name of the build file to be enqueued.
 		 * @return    void
 		 */
 		public static function enqueue_style( $file_name ): void {
@@ -201,7 +202,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * returns a set of fallback values.
 		 *
 		 * @since     1.0.0
-		 * @param     $file_name    Name of the build file to be enqueued.
+		 * @param     string    $file_name    Name of the build file to be enqueued.
 		 * @return    array
 		 */
 		public static function get_asset_dependencies( $file_name ): array {
