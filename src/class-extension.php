@@ -203,11 +203,12 @@ if ( ! class_exists( Extension::class ) ) :
 		 *
 		 * @since     1.0.0
 		 * @param     string    $file_name    Name of the build file to be enqueued.
+		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    array
 		 */
-		public static function get_asset_dependencies( $file_name ): array {
-			$file_path = static::get_build_file_path( $file_name );
-			$asset_path = static::get_build_asset_path( $file_name );
+		public static function get_asset_dependencies( $file_name, $build_dir = API_Constants::BUILD_DIR ): array {
+			$file_path = static::get_build_file_path( $file_name, $build_dir );
+			$asset_path = static::get_build_asset_path( $file_name, $build_dir );
 			$asset = file_exists( $asset_path )
 				? require $asset_path
 				: array(
