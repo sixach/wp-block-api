@@ -23,21 +23,34 @@ if ( ! class_exists( Extension::class ) ) :
 				throw new \LogicException( sprintf( '%s must have a $path', static::class ) );
 			}
 
-			static::enqueue_assets();
+			static::add_actions();
 		}
 
-		protected static function enqueue_assets(): void {
+		/**
+		 * Add WordPress actions to enqueue assets.
+		 *
+		 * Check if the used class implements any of the available interfaces. In case
+		 * that an interface is implemented, automatically add the corresponding
+		 * action for the required function (which is defined in the interface).
+		 *
+		 * @since     1.0.0
+		 * @return    void
+		 */
+		protected static function add_actions(): void {
 			$implemented_interfaces = class_implements( static::class );
 
 			if ( in_array( Extension_With_Editor_Assets::class, $implemented_interfaces ) ) {
+				// Enqueue assets in the editor.
 				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_editor_assets' ), 0 );
 			}
 
 			if ( in_array( Extension_With_Block_Assets::class, $implemented_interfaces ) ) {
+				// Enqueue assets in the editor as well as the frontend.
 				add_action( 'enqueue_block_assets', array( static::class, 'enqueue_block_assets' ), 0 );
 			}
 
 			if ( in_array( Extension_With_Frontend_Assets::class, $implemented_interfaces ) ) {
+				// Enqueue assets in the frontend.
 				add_action( 'wp_enqueue_scripts', array( static::class, 'enqueue_frontend_assets' ), 0 );
 			}
 		}
