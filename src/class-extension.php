@@ -46,32 +46,32 @@ if ( ! class_exists( Extension::class ) ) :
 		/**
 		 * @return string
 		 */
-		public static function get_build_dir_path(): string {
-			return trailingslashit( sprintf( '%sbuild', trailingslashit( dirname( static::$path, 2 ) ) ) );
+		public static function get_build_dir_path( $build_dir = API_Constants::BUILD_DIR ): string {
+			return trailingslashit( sprintf( '%s%s', trailingslashit( dirname( static::$path, 2 ) ), $build_dir ) );
 		}
 
 		/**
 		 * @param $file_name
 		 * @return string
 		 */
-		public static function get_build_file_path( $file_name ) {
-			return sprintf( '%s%s', static::get_build_dir_path(), $file_name );
+		public static function get_build_file_path( $file_name, $build_dir = API_Constants::BUILD_DIR ) {
+			return sprintf( '%s%s', static::get_build_dir_path( $build_dir ), $file_name );
 		}
 
 		/**
 		 * @param $file_name
 		 * @return string
 		 */
-		public static function get_build_file_url( $file_name ) {
-			return sprintf( '%sbuild/%s', plugin_dir_url( dirname( static::$path ) ), $file_name );
+		public static function get_build_file_url( $file_name, $build_dir = API_Constants::BUILD_DIR ) {
+			return sprintf( '%s%s%s', plugin_dir_url( dirname( static::$path ) ), trailingslashit( $build_dir ), $file_name );
 		}
 
 		/**
 		 * @param $file_name
 		 * @return string
 		 */
-		public static function get_build_asset_path( $file_name ) {
-			return static::get_build_file_path( static::get_asset_file_name( $file_name ) );
+		public static function get_build_asset_path( $file_name, $build_dir = API_Constants::BUILD_DIR ) {
+			return static::get_build_file_path( static::get_asset_file_name( $file_name ), $build_dir );
 		}
 
 		/**
