@@ -30,7 +30,7 @@ if ( ! class_exists( Extension::class ) ) :
 			static::enqueue_assets();
 		}
 
-		public static function enqueue_assets() {
+		public static function enqueue_assets(): void {
 			if ( count( static::$editor_assets ) > 0 ) {
 				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_editor_assets' ), 0 );
 			}
@@ -72,7 +72,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    string
 		 */
-		public static function get_build_file_path( $file_name, $build_dir = API_Constants::BUILD_DIR ) {
+		public static function get_build_file_path( $file_name, $build_dir = API_Constants::BUILD_DIR ): string {
 			return sprintf( '%s%s', static::get_build_dir_path( $build_dir ), $file_name );
 		}
 
@@ -84,7 +84,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    string
 		 */
-		public static function get_build_file_url( $file_name, $build_dir = API_Constants::BUILD_DIR ) {
+		public static function get_build_file_url( $file_name, $build_dir = API_Constants::BUILD_DIR ): string {
 			return sprintf( '%s%s%s', plugin_dir_url( dirname( static::$path ) ), trailingslashit( $build_dir ), $file_name );
 		}
 
@@ -97,7 +97,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    string
 		 */
-		public static function get_build_asset_path( $file_name, $build_dir = API_Constants::BUILD_DIR ) {
+		public static function get_build_asset_path( $file_name, $build_dir = API_Constants::BUILD_DIR ): string {
 			return static::get_build_file_path( static::get_asset_file_name( $file_name ), $build_dir );
 		}
 
@@ -113,7 +113,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_file_name    Name of the original file (e.g. index.js).
 		 * @return    string
 		 */
-		public static function get_asset_file_name( $build_file_name ) {
+		public static function get_asset_file_name( $build_file_name ): string {
 			$file_name_parts = explode( '.', $build_file_name );
 
 			if ( 2 !== count( $file_name_parts ) ) {
@@ -128,21 +128,21 @@ if ( ! class_exists( Extension::class ) ) :
 		/**
 		 * Enqueue for editor.
 		 */
-		public static function enqueue_editor_assets() {
+		public static function enqueue_editor_assets(): void {
 			static::enqueue_script( 'index.js' );
 		}
 
 		/**
 		 * Enqueue for editor and frontend.
 		 */
-		public static function enqueue_block_assets() {
+		public static function enqueue_block_assets(): void {
 			static::enqueue_style( 'style-index.css' );
 		}
 
 		/**
 		 * Enqueue for frontend.
 		 */
-		public static function enqueue_frontend_assets() {
+		public static function enqueue_frontend_assets(): void {
 			print( 'enqueue_frontend_assets <br><br>' );
 		}
 
@@ -157,7 +157,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     $file_name    Name of the build file to be enqueued.
 		 * @return    void
 		 */
-		public static function enqueue_script( $file_name ) {
+		public static function enqueue_script( $file_name ): void {
 			$asset_path = static::get_build_file_url( $file_name );
 			$asset_dependencies = static::get_asset_dependencies( $file_name );
 
@@ -181,7 +181,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     $file_name    Name of the build file to be enqueued.
 		 * @return    void
 		 */
-		public static function enqueue_style( $file_name ) {
+		public static function enqueue_style( $file_name ): void {
 			$asset_path = static::get_build_file_url( $file_name );
 			$asset_dependencies = static::get_asset_dependencies( $file_name );
 
@@ -204,7 +204,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     $file_name    Name of the build file to be enqueued.
 		 * @return    array
 		 */
-		public static function get_asset_dependencies( $file_name ) {
+		public static function get_asset_dependencies( $file_name ): array {
 			$file_path = static::get_build_file_path( $file_name );
 			$asset_path = static::get_build_asset_path( $file_name );
 			$asset = file_exists( $asset_path )
