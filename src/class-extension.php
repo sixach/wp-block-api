@@ -57,7 +57,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    string
 		 */
-		public static function get_build_dir_path( $build_dir = API_Constants::BUILD_DIR ): string {
+		public static function get_build_dir_path( string $build_dir = API_Constants::BUILD_DIR ): string {
 			return trailingslashit( sprintf( '%s%s', trailingslashit( dirname( static::$path, 2 ) ), $build_dir ) );
 		}
 
@@ -72,7 +72,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    string
 		 */
-		public static function get_build_file_path( $file_name, $build_dir = API_Constants::BUILD_DIR ): string {
+		public static function get_build_file_path( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): string {
 			return sprintf( '%s%s', static::get_build_dir_path( $build_dir ), $file_name );
 		}
 
@@ -84,7 +84,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    string
 		 */
-		public static function get_build_file_url( $file_name, $build_dir = API_Constants::BUILD_DIR ): string {
+		public static function get_build_file_url( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): string {
 			return sprintf( '%s%s%s', plugin_dir_url( dirname( static::$path ) ), trailingslashit( $build_dir ), $file_name );
 		}
 
@@ -97,7 +97,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    string
 		 */
-		public static function get_build_asset_path( $file_name, $build_dir = API_Constants::BUILD_DIR ): string {
+		public static function get_build_asset_path( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): string {
 			return static::get_build_file_path( static::get_asset_file_name( $file_name ), $build_dir );
 		}
 
@@ -113,7 +113,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_file_name    Name of the original file (e.g. index.js).
 		 * @return    string
 		 */
-		public static function get_asset_file_name( $build_file_name ): string {
+		public static function get_asset_file_name( string $build_file_name ): string {
 			$file_name_parts = explode( '.', $build_file_name );
 
 			if ( 2 !== count( $file_name_parts ) ) {
@@ -158,7 +158,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    void
 		 */
-		public static function enqueue_script( $file_name, $build_dir = API_Constants::BUILD_DIR ): void {
+		public static function enqueue_script( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): void {
 			$asset_path = static::get_build_file_url( $file_name, $build_dir );
 			$asset_dependencies = static::get_asset_dependencies( $file_name );
 
@@ -182,7 +182,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string     $file_name    Name of the build file to be enqueued.
 		 * @return    void
 		 */
-		public static function enqueue_style( $file_name ): void {
+		public static function enqueue_style( string $file_name ): void {
 			$asset_path = static::get_build_file_url( $file_name );
 			$asset_dependencies = static::get_asset_dependencies( $file_name );
 
@@ -206,7 +206,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    array
 		 */
-		public static function get_asset_dependencies( $file_name, $build_dir = API_Constants::BUILD_DIR ): array {
+		public static function get_asset_dependencies( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): array {
 			$file_path = static::get_build_file_path( $file_name, $build_dir );
 			$asset_path = static::get_build_asset_path( $file_name, $build_dir );
 			$asset = file_exists( $asset_path )
