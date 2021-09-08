@@ -39,8 +39,29 @@
 
 namespace Sixa_Blocks;
 
+
+/**
+ * Interface class for Extensions that load editor assets.
+ *
+ * @see    Extension
+ */
 interface Extension_With_Editor_Assets {
 
+	/**
+	 * Enqueue edtiro assets for your extension.
+	 *
+	 * This function typically calls `Extension::enqueue_script` or `Extension::enqueue_style`.
+	 * This function is automatically added to the WordPress action hook `enqueue_editor_assets`
+	 * by `Extension` during initialization.
+
+	 * @see       Extension
+	 * @see       Extension::add_actions()
+	 * @see       Extension::enqueue_style()
+	 * @see       Extension::enqueue_script()
+	 *
+	 * @since     1.0.0
+	 * @return    void
+	 */
 	public static function enqueue_editor_assets(): void;
 
 }
