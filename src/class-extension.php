@@ -66,6 +66,8 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @return    void
 		 */
 		public static function init(): void {
+			// Make sure that the implementing class assigns a `$name` and throw an error if it does not.
+			// We do this because `$name` is required for registering assets.
 			if ( ! isset( static::$name ) ) {
 				throw new \LogicException( sprintf( '%s must have a $name', static::class ) );
 			}
@@ -105,6 +107,13 @@ if ( ! class_exists( Extension::class ) ) :
 			}
 		}
 
+		/**
+		 * Return the file name of the current class.
+		 * This can be `Extension` or any implementing class.
+		 *
+		 * @since     1.0.0
+		 * @return    string
+		 */
 		protected static function get_class_file_name(): string {
 			$reflector = new \ReflectionClass( static::class );
 			return $reflector->getFileName();
