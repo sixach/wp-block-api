@@ -44,7 +44,11 @@ if ( ! class_exists( Extension::class ) ) :
 	class Extension {
 
 		/**
-		 * @var string
+		 * Name of the extension.
+		 * Used as a handle in the enqueue calls.
+		 *
+		 * @since     1.0.0
+		 * @var       string
 		 */
 		protected static string $name;
 
