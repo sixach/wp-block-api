@@ -27,7 +27,7 @@
  * }
  * ```
  *
- * Block assets are loaded in the frontend.
+ * Frontend assets are loaded in the frontend.
  *
  * @link          https://sixa.ch
  * @author        sixa AG
