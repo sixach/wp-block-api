@@ -41,8 +41,27 @@ namespace Sixa_Blocks;
 
 if ( ! interface_exists( Extension_With_Block_Assets::class ) ) :
 
+	/**
+	 * Interface class for Extensions that load block assets.
+	 *
+	 * @see    Extension
+	 */
 	interface Extension_With_Block_Assets {
 
+		/**
+		 * Enqueue block assets for your extension.
+		 *
+		 * This function typically calls `Extension::enqueue_script` or `Extension::enqueue_style`.
+		 * This function is automatically added to the WordPress action hook `enqueue_block_assets`
+		 * by `Extension` during initialization.
+
+		 * @see       Extension
+		 * @see       Extension::enqueue_style()
+		 * @see       Extension::enqueue_script()
+		 *
+		 * @since     1.0.0
+		 * @return    void
+		 */
 		public static function enqueue_block_assets(): void;
 
 	}
