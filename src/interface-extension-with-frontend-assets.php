@@ -16,7 +16,7 @@
  * The default implementation of `enqueue_frontend_assets` could look as follows:
  *
  * ```PHP
- * class My_Extension extends Extension implements Extension_With_Block_Assets {
+ * class My_Extension extends Extension implements Extension_With_Frontend_Assets {
  *
  *     protected static string $name = 'sixa-my-extension';
  *
