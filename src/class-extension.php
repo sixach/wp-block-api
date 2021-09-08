@@ -208,20 +208,40 @@ if ( ! class_exists( Extension::class ) ) :
 		 * relevant paths, names, and parameters.
 		 *
 		 * @since     1.0.0
-		 * @param     string    $file_name    Name of the build file to be enqueued.
-		 * @param     string    $build_dir    Name of the build directory.
+		 * @param     string      $file_name             Name of the build file to be enqueued.
+		 * @param     string      $asset_name            Script handle. Defaults to `static::$name`.
+		 * @param     string      $asset_path            Path to the asset file. Is built if not provided.
+		 * @param     string[]    $asset_dependencies    Array of dependencies for the given asset.
+		 *                                               Is loaded from `name.asset.php` if available; defaults to none (empty array).
+		 * @param     string      $asset_version         Version of the asset (used for browser caching).
+		 * @param     bool        $in_footer             Indicates if the script should be added in the footer.
+		 * @param     string      $build_dir             Name of the build directory.
 		 * @return    void
 		 */
-		protected static function enqueue_script( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): void {
-			$asset_path = static::get_build_file_url( $file_name, $build_dir );
-			$asset_dependencies = static::get_asset_dependencies( $file_name );
+		protected static function enqueue_script(
+			string $file_name,
+			string $asset_name = '',
+			string $asset_path = '',
+			array $asset_dependencies = array(),
+			string $asset_version = '',
+			bool $in_footer = false,
+			string $build_dir = API_Constants::BUILD_DIR
+		): void {
+			$asset_name = ! empty( $asset_name ) ? $asset_name : static::$name;
+			$asset_path = ! empty( $asset_path ) ? $asset_path : static::get_build_file_url( $file_name, $build_dir );
+
+			if ( ! $asset_dependencies || ! $asset_version ) {
+				$asset_meta = static::get_asset_meta( $file_name, $build_dir );
+				$asset_dependencies = ! empty( $asset_dependencies ) ? $asset_dependencies : $asset_meta['dependencies'];
+				$asset_version = ! empty( $asset_version ) ? $asset_version : $asset_meta['version'];
+			}
 
 			wp_enqueue_script(
-				static::$name,
+				$asset_name,
 				$asset_path,
-				$asset_dependencies['dependencies'] ?? array(),
-				$asset_dependencies['version'] ?? null,
-				false
+				$asset_dependencies,
+				$asset_version,
+				$in_footer
 			);
 		}
 
@@ -233,19 +253,40 @@ if ( ! class_exists( Extension::class ) ) :
 		 * relevant paths, names, and parameters.
 		 *
 		 * @since     1.0.0
-		 * @param     string     $file_name    Name of the build file to be enqueued.
+		 * @param     string      $file_name             Name of the build file to be enqueued.
+		 * @param     string      $asset_name            Script handle. Defaults to `static::$name`.
+		 * @param     string      $asset_path            Path to the asset file. Is built if not provided.
+		 * @param     string[]    $asset_dependencies    Array of dependencies for the given asset.
+		 *                                               Is loaded from `name.asset.php` if available; defaults to none (empty array).
+		 * @param     string      $asset_version         Version of the asset (used for browser caching).
+		 * @param     string      $media             Indicates if the script should be added in the footer.
+		 * @param     string      $build_dir             Name of the build directory.
 		 * @return    void
 		 */
-		protected static function enqueue_style( string $file_name ): void {
-			$asset_path = static::get_build_file_url( $file_name );
-			$asset_dependencies = static::get_asset_dependencies( $file_name );
+		protected static function enqueue_style(
+			string $file_name,
+			string $asset_name = '',
+			string $asset_path = '',
+			array $asset_dependencies = array(),
+			string $asset_version = '',
+			string $media = 'all',
+			string $build_dir = API_Constants::BUILD_DIR
+		): void {
+			$asset_name = ! empty( $asset_name ) ? $asset_name : static::$name;
+			$asset_path = ! empty( $asset_path ) ? $asset_path : static::get_build_file_url( $file_name, $build_dir );
+
+			if ( ! $asset_dependencies || ! $asset_version ) {
+				$asset_meta = static::get_asset_meta( $file_name, $build_dir );
+				$asset_dependencies = ! empty( $asset_dependencies ) ? $asset_dependencies : $asset_meta['dependencies'];
+				$asset_version = ! empty( $asset_version ) ? $asset_version : $asset_meta['version'];
+			}
 
 			wp_enqueue_style(
-				static::$name,
+				$asset_name,
 				$asset_path,
-				$asset_dependencies['dependencies'] ?? array(),
-				$asset_dependencies['version'] ?? null,
-				false
+				$asset_dependencies,
+				$asset_version,
+				$media
 			);
 		}
 
@@ -260,7 +301,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @param     string    $build_dir    Name of the build directory.
 		 * @return    array
 		 */
-		protected static function get_asset_dependencies( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): array {
+		protected static function get_asset_meta(string $file_name, string $build_dir = API_Constants::BUILD_DIR ): array {
 			$file_path = static::get_build_file_path( $file_name, $build_dir );
 			$asset_path = static::get_build_asset_path( $file_name, $build_dir );
 			$asset = file_exists( $asset_path )
