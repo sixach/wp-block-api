@@ -28,6 +28,13 @@
  * ```
  *
  * Block assets are loaded in the editor as well as the frontend.
+ *
+ * @link          https://sixa.ch
+ * @author        sixa AG
+ * @since         1.0.0
+ *
+ * @package       Sixa_Blocks
+ * @subpackage    Sixa_Blocks\Extension_With_Block_Assets
  */
 
 namespace Sixa_Blocks;
