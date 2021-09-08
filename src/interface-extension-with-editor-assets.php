@@ -39,7 +39,7 @@
 
 namespace Sixa_Blocks;
 
-if ( ! interface_exists( Extension_With_Block_Assets::class ) ) :
+if ( ! interface_exists( Extension_With_Editor_Assets::class ) ) :
 
 	/**
 	 * Interface class for Extensions that load editor assets.
