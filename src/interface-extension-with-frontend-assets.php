@@ -47,6 +47,21 @@ namespace Sixa_Blocks;
  */
 interface Extension_With_Frontend_Assets {
 
+	/**
+	 * Enqueue frontend assets for your extension.
+	 *
+	 * This function typically calls `Extension::enqueue_script` or `Extension::enqueue_style`.
+	 * This function is automatically added to the WordPress action hook `wp_enqueue_scripts`
+	 * by `Extension` during initialization.
+
+	 * @see       Extension
+	 * @see       Extension::add_actions()
+	 * @see       Extension::enqueue_style()
+	 * @see       Extension::enqueue_script()
+	 *
+	 * @since     1.0.0
+	 * @return    void
+	 */
 	public static function enqueue_frontend_assets(): void;
 
 }
