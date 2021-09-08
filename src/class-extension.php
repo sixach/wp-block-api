@@ -1,4 +1,21 @@
 <?php
+/**
+ * Extension class file.
+ *
+ * The class in this file represents the default implementation of a simple Extension class.
+ * Particularly, the class handles loading and reading local files relative to a plugin directory
+ * as well as a composer package in order to enqueue assets.
+ *
+ * The class makes use of interfaces to detect additional functionality and is intended to require
+ * at least one of them (otherwise no assets are loaded).
+ *
+ * @link          https://sixa.ch
+ * @author        sixa AG
+ * @since         1.0.0
+ *
+ * @package       Sixa_Blocks
+ * @subpackage    Sixa_Blocks\Extension
+ */
 
 namespace Sixa_Blocks;
 
