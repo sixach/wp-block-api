@@ -55,6 +55,11 @@ if ( ! class_exists( Extension::class ) ) :
 			}
 		}
 
+		protected static function get_class_file_name(): string {
+			$reflector = new \ReflectionClass( static::class );
+			return $reflector->getFileName();
+		}
+
 		/**
 		 * Return the full absolute path of the build directory in an extension.
 		 * This is the full absolute path to the root directory of the extension with the
@@ -69,7 +74,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @return    string
 		 */
 		protected static function get_build_dir_path( string $build_dir = API_Constants::BUILD_DIR ): string {
-			return trailingslashit( sprintf( '%s%s', trailingslashit( dirname( static::$path, 2 ) ), $build_dir ) );
+			return trailingslashit( sprintf( '%s%s', trailingslashit( dirname( static::get_class_file_name(), 2 ) ), $build_dir ) );
 		}
 
 		/**
@@ -96,7 +101,7 @@ if ( ! class_exists( Extension::class ) ) :
 		 * @return    string
 		 */
 		protected static function get_build_file_url( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): string {
-			return sprintf( '%s%s%s', plugin_dir_url( dirname( static::$path ) ), trailingslashit( $build_dir ), $file_name );
+			return sprintf( '%s%s%s', plugin_dir_url( dirname( static::get_class_file_name() ) ), trailingslashit( $build_dir ), $file_name );
 		}
 
 		/**
