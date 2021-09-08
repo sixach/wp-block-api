@@ -35,6 +35,8 @@ if ( ! class_exists( Extension::class ) ) :
 	 *
 	 * This class is intended to be extended by the class of an actual extension. In addition,
 	 * extension classes are intended to implement any number of extension interfaces.
+	 * This class expects that the extending class implements at least one of the interfaces.
+	 * Otherwise no assets are loaded.
 	 *
 	 * @see    Extension_With_Editor_Assets      Indicates that the implementing Extensino class loads editor assets.
 	 * @see    Extension_With_Block_Assets       Indicates that the implementing Extension class loads block assets
@@ -52,6 +54,17 @@ if ( ! class_exists( Extension::class ) ) :
 		 */
 		protected static string $name;
 
+		/**
+		 * Initialize the extension.
+		 *
+		 * During initialization, the function checks if the extending class assigns a `$name`
+		 * member value and throws an error if `$name` is not set.
+		 * Adds all relevant actions to enqueue the assets of this extension corresponding to
+		 * the interfaces that are implemented by the extending class.
+		 *
+		 * @since     1.0.0
+		 * @return    void
+		 */
 		public static function init(): void {
 			if ( ! isset( static::$name ) ) {
 				throw new \LogicException( sprintf( '%s must have a $name', static::class ) );
@@ -66,6 +79,9 @@ if ( ! class_exists( Extension::class ) ) :
 		 * Check if the used class implements any of the available interfaces. In case
 		 * that an interface is implemented, automatically add the corresponding
 		 * action for the required function (which is defined in the interface).
+		 *
+		 * Notice: This class expects that the extending class implements at least one
+		 * of the interfaces. Otherwise no assets are loaded.
 		 *
 		 * @since     1.0.0
 		 * @return    void
