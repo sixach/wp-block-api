@@ -12,15 +12,10 @@ if ( ! class_exists( Extension::class ) ) :
 	class Extension {
 
 		protected static string $name;
-		protected static string $path;
 
 		public static function init(): void {
 			if ( ! isset( static::$name ) ) {
 				throw new \LogicException( sprintf( '%s must have a $name', static::class ) );
-			}
-
-			if ( ! isset( static::$path ) ) {
-				throw new \LogicException( sprintf( '%s must have a $path', static::class ) );
 			}
 
 			static::add_actions();
