@@ -40,6 +40,11 @@
 
 namespace Sixa_Blocks;
 
+/**
+ * Interface class for Extensions that load frontend assets.
+ *
+ * @see    Extension
+ */
 interface Extension_With_Frontend_Assets {
 
 	public static function enqueue_frontend_assets(): void;
