@@ -32,9 +32,14 @@
 
 namespace Sixa_Blocks;
 
+if ( ! interface_exists( Extension_With_Block_Assets::class ) ) :
 
-interface Extension_With_Block_Assets {
+	interface Extension_With_Block_Assets {
 
-	public static function enqueue_block_assets(): void;
+		public static function enqueue_block_assets(): void;
 
-}
+	}
+
+endif;
+
+
