@@ -34,7 +34,7 @@
  * @since         1.0.0
  *
  * @package       Sixa_Blocks
- * @subpackage    Sixa_Blocks\Extension_With_Block_Assets
+ * @subpackage    Sixa_Blocks\Extension_With_Frontend_Assets
  */
 
 
