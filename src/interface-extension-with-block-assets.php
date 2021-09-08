@@ -56,6 +56,7 @@ if ( ! interface_exists( Extension_With_Block_Assets::class ) ) :
 		 * by `Extension` during initialization.
 
 		 * @see       Extension
+		 * @see       Extension::add_actions()
 		 * @see       Extension::enqueue_style()
 		 * @see       Extension::enqueue_script()
 		 *
