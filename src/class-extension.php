@@ -9,8 +9,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( Extension::class ) ) :
 
+	/**
+	 * Class to build WordPress extensions.
+	 *
+	 * Includes all relevant boilerplate and loading functions to enqueue assets for an
+	 * extension. Different types of assets are supported by implementing any of the
+	 * interfaces published in this library.
+	 *
+	 * This class is intended to be extended by the class of an actual extension. In addition,
+	 * extension classes are intended to implement any number of extension interfaces.
+	 *
+	 * @see    Extension_With_Editor_Assets      Indicates that the implementing Extensino class loads editor assets.
+	 * @see    Extension_With_Block_Assets       Indicates that the implementing Extension class loads block assets
+	 * @see    Extension_With_Frontend_Assets    Indicates that the implementing Extension class loads frontend assets.
+	 *
+	 */
 	class Extension {
 
+		/**
+		 * @var string
+		 */
 		protected static string $name;
 
 		public static function init(): void {
