@@ -27,7 +27,7 @@
  * }
  * ```
  *
- * Block assets are loaded in the editor.
+ * Editor assets are loaded in the editor.
  *
  * @link          https://sixa.ch
  * @author        sixa AG

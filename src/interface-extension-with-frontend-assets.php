@@ -37,7 +37,6 @@
  * @subpackage    Sixa_Blocks\Extension_With_Frontend_Assets
  */
 
-
 namespace Sixa_Blocks;
 
 if ( ! interface_exists( Extension_With_Frontend_Assets::class ) ) :
