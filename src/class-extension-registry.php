@@ -26,6 +26,13 @@ final class Extension_Registry {
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
+			// Add actions that perform asset enqueueing.
+			// Inside `Extension_Registry::get_instance()` seems to be a convenient location
+			// for this as i) it is guaranteed to be called if at least one extension is registered
+			// and ii) the condition `null === self::$instance` is guaranteed to be true at most once.
+			// Thus, we can guarantee that we are only adding the actions once (and would in fact be able
+			// to skip the checks that we include).
+			Functions::add_enqueueing_actions();
 			self::$instance = new self();
 		}
 

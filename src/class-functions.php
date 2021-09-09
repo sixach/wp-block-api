@@ -38,15 +38,41 @@ final class Functions {
 		}
 
 		Extension_Registry::get_instance()->register( $extension );
+	}
+
+	public static function add_enqueueing_actions() {
+		if ( ! has_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ) ) ) {
+			add_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ) );
+		}
 
 		if ( ! has_action( 'enqueue_block_assets', array( self::class, 'enqueue_block_assets' ) ) ) {
 			add_action( 'enqueue_block_assets', array( self::class, 'enqueue_block_assets' ) );
 		}
+
+		if ( ! has_action( 'wp_enqueue_scripts', array( self::class, 'enqueue_frontend_assets' ) ) ) {
+			add_action( 'wp_enqueue_scripts', array( self::class, 'enqueue_frontend_assets' ) );
+		}
 	}
 
 	public static function enqueue_block_assets() {
-		print( 'enqueue_block_assets' );
-		exit();
+		self::enqueue_assets_by_type( Asset_Type::SCRIPT );
+	}
+
+	public static function enqueue_editor_assets() {
+		self::enqueue_assets_by_type( Asset_Type::EDITOR_SCRIPT );
+	}
+
+	public static function enqueue_frontend_assets() {
+		self::enqueue_assets_by_type( Asset_Type::FRONTEND_SCRIPT );
+	}
+
+	private static function enqueue_assets_by_type( $type ) {
+		$extension_registry = Extension_Registry::get_instance();
+		foreach( $extension_registry->get_all_registered() as $extension ) {
+			if ( ! empty( $extension[ $type ] ) ) {
+				wp_enqueue_script( $extension[ $type ] );
+			}
+		}
 	}
 
 	/**
