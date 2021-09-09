@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( Extension::class ) ) :
+if ( ! class_exists( OLD_Extension::class ) ) :
 
 	/**
 	 * Class to build WordPress extensions.
@@ -43,7 +43,7 @@ if ( ! class_exists( Extension::class ) ) :
 	 * @see    Extension_With_Frontend_Assets    Indicates that the implementing Extension class loads frontend assets.
 	 *
 	 */
-	class Extension {
+	class OLD_Extension {
 
 		/**
 		 * Name of the extension.
