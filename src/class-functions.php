@@ -8,9 +8,8 @@ final class Functions {
 	private const METADATA_FILE_NAME = 'extension.json';
 	private const PATH_PREFIX = 'file:';
 
-	public static function register_extension_from_metadata( string $file_or_folder, array $args = array() ): void {
+	public static function register_extension_from_metadata( string $file_or_folder ): void {
 		$metadata_file = self::get_metadata_file_path_from_file_or_folder( $file_or_folder );
-
 
 		if ( ! file_exists( $metadata_file ) ) {
 			// Bail early if the given file does not exist.
@@ -24,10 +23,30 @@ final class Functions {
 		}
 		$metadata['file'] = $metadata_file;
 
+		$extension = array();
+		$extension['name'] = $metadata['name'];
 		if ( ! empty( $metadata[ Asset_Type::SCRIPT ] ) ) {
-			self::register_extension_script_handle( $metadata, Asset_Type::SCRIPT );
+			$extension[Asset_Type::SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::SCRIPT );
 		}
 
+		if ( ! empty( $metadata[ Asset_Type::EDITOR_SCRIPT ] ) ) {
+			$extension[Asset_Type::EDITOR_SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::EDITOR_SCRIPT );
+		}
+
+		if ( ! empty( $metadata[ Asset_Type::FRONTEND_SCRIPT ] ) ) {
+			$extension[Asset_Type::FRONTEND_SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::FRONTEND_SCRIPT );
+		}
+
+		Extension_Registry::get_instance()->register( $extension );
+
+		if ( ! has_action( 'enqueue_block_assets', array( self::class, 'enqueue_block_assets' ) ) ) {
+			add_action( 'enqueue_block_assets', array( self::class, 'enqueue_block_assets' ) );
+		}
+	}
+
+	public static function enqueue_block_assets() {
+		print( 'enqueue_block_assets' );
+		exit();
 	}
 
 	/**
@@ -68,7 +87,7 @@ final class Functions {
 
 		if ( ! $result ) {
 			// Bail early if the script could not be registered.
-			return;
+			return '';
 		}
 
 		// TODO: do we need to add `wp_set_script_translations`?
