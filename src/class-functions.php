@@ -68,7 +68,7 @@ final class Functions {
 
 	private static function enqueue_assets_by_type( $type ) {
 		$extension_registry = Extension_Registry::get_instance();
-		foreach( $extension_registry->get_all_registered() as $extension ) {
+		foreach( $extension_registry->get_registered_extensions() as $extension ) {
 			if ( ! empty( $extension[ $type ] ) ) {
 				wp_enqueue_script( $extension[ $type ] );
 			}

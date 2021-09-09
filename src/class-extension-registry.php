@@ -13,7 +13,13 @@ final class Extension_Registry {
 		$this->registered_extensions[ $extension['name'] ] = $extension;
 	}
 
-	public function get_all_registered() {
+	/**
+	 * Return all registered extensions.
+	 *
+	 * @since     1.0.0
+	 * @return    array
+	 */
+	public function get_registered_extensions(): array {
 		return $this->registered_extensions;
 	}
 
@@ -24,7 +30,7 @@ final class Extension_Registry {
 	 * @since     1.0.0
 	 * @return    Extension_Registry
 	 */
-	public static function get_instance() {
+	public static function get_instance(): Extension_Registry {
 		if ( null === self::$instance ) {
 			// Add actions that perform asset enqueueing.
 			// Inside `Extension_Registry::get_instance()` seems to be a convenient location
