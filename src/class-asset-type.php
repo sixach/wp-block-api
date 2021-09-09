@@ -14,9 +14,9 @@
  *     `frontendStyle` -> frontend
  *     `frontendScript` -> frontend
  *
- * @link      https://sixa.ch
- * @author    sixa AG
- * @since     1.0.0
+ * @link          https://sixa.ch
+ * @author        sixa AG
+ * @since         1.0.0
  *
  * @package       Sixa_Blocks
  * @subpackage    Sixa_Blocks/Asset_Type
