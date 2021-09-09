@@ -42,7 +42,7 @@ namespace Sixa_Blocks;
 
 class My_Extension extends Extension implements Extension_With_Editor_Assets {
 
-	protected static string $name = 'sixa-wp-extension-media-text-stretch-media';
+	protected static string $name = 'sixa-wp-extension-my-extension';
 
 	public static function enqueue_editor_assets(): void {
 		self::enqueue_script( 'index.js' );
