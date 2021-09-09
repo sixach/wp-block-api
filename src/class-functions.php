@@ -42,15 +42,15 @@ final class Functions {
 
 	public static function add_enqueueing_actions() {
 		if ( ! has_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ) ) ) {
-			add_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ) );
+			add_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ), 0 );
 		}
 
 		if ( ! has_action( 'enqueue_block_assets', array( self::class, 'enqueue_block_assets' ) ) ) {
-			add_action( 'enqueue_block_assets', array( self::class, 'enqueue_block_assets' ) );
+			add_action( 'enqueue_block_assets', array( self::class, 'enqueue_block_assets' ), 0 );
 		}
 
 		if ( ! has_action( 'wp_enqueue_scripts', array( self::class, 'enqueue_frontend_assets' ) ) ) {
-			add_action( 'wp_enqueue_scripts', array( self::class, 'enqueue_frontend_assets' ) );
+			add_action( 'wp_enqueue_scripts', array( self::class, 'enqueue_frontend_assets' ), 0 );
 		}
 	}
 
