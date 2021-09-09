@@ -56,7 +56,7 @@ if ( ! class_exists( Block::class ) ) :
 		}
 
 		/**
-		 * Registers the block using the metadata loaded from the `block.json` file.
+		 * Register the block using the metadata loaded from the `block.json` file.
 		 * Behind the scenes, it also registers all assets so they can be enqueued
 		 * through the block editor in the corresponding context.
 		 *
