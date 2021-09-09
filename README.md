@@ -166,7 +166,7 @@ final class My_Block extends Block {
 		);
 	}
 	
-	public static function render( array $attributes = array() ): strign {
+	public static function render( array $attributes = array() ): string {
 		// Add your render callback here.
 	}
 
