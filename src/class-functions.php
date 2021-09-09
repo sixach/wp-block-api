@@ -22,9 +22,10 @@ final class Functions {
 			// Bail early if the extracted object is invalid or if `name` is missing.
 			return;
 		}
+		$metadata['file'] = $metadata_file;
 
-		if ( ! empty( $metadata[ Asset_Type::STYLE ] ) ) {
-			self::register_extension_script_handle( $metadata['name'], $metadata['script'], Asset_Type::STYLE );
+		if ( ! empty( $metadata[ Asset_Type::SCRIPT ] ) ) {
+			self::register_extension_script_handle( $metadata, Asset_Type::SCRIPT );
 		}
 
 	}
@@ -41,16 +42,38 @@ final class Functions {
 		return $file_or_folder;
 	}
 
-	private static function register_extension_script_handle( string $name, string $path, string $type ): string {
-		$handle = self::remove_path_prefix( $path );
+	/**
+	 * @param array $metadata
+	 * @param string $type
+	 * @return string
+	 */
+	private static function register_extension_script_handle( array $metadata, string $type ): string {
+		$handle = $metadata[$type];
+		$path = self::remove_path_prefix( $handle );
+
 		// Bail early if the passed path already is a handle (i.e. if it doesn't contain a 'file:' prefix)
 		if ( $handle === $path ) {
 			return $handle;
 		}
 
-		$handle = self::get_asset_handle( $name, $type );
-		print( $handle );
-		exit();
+		$handle = self::build_asset_handle( $metadata['name'], $type );
+		$asset_meta = self::get_asset_meta( $metadata, $type );
+
+		$result = wp_register_script(
+			$handle,
+			plugins_url( $path, $metadata['file'] ),
+			$asset_meta['dependencies'],
+			$asset_meta['version']
+		);
+
+		if ( ! $result ) {
+			// Bail early if the script could not be registered.
+			return;
+		}
+
+		// TODO: do we need to add `wp_set_script_translations`?
+
+		return $handle;
 	}
 
 	/**
@@ -64,8 +87,58 @@ final class Functions {
 		return substr( $path, strlen( self::PATH_PREFIX ) );
 	}
 
-	private static function get_asset_handle( $name, $type ) {
+	/**
+	 * @param $name
+	 * @param $type
+	 * @return string
+	 */
+	private static function build_asset_handle( $name, $type ) {
 		return sprintf( '%s-%s', $name, Asset_Type::SLUGS[ $type ] );
+	}
+
+	/**
+	 * @param $metadata
+	 * @param $type
+	 * @return array|mixed
+	 */
+	private static function get_asset_meta( $metadata, $type ) {
+		$asset_full_path = self::get_full_asset_path( $metadata, $type );
+		$asset_meta_path = self::get_asset_meta_path( $metadata, $type );
+		return file_exists( $asset_meta_path )
+			? require $asset_meta_path
+			: array(
+				'dependencies' => array(),
+				'version'      => filemtime( $asset_full_path ),
+			);
+	}
+
+	/**
+	 * @param $metadata
+	 * @param $type
+	 * @return false|string
+	 */
+	private static function get_asset_meta_path( $metadata, $type ) {
+		$asset_path = self::remove_path_prefix( $metadata[$type ]);
+		$asset_meta_path = substr_replace( $asset_path, '.asset.php', strlen( '.js' ) * -1 );
+		return self::get_full_path_for_file( $metadata, $asset_meta_path );
+	}
+
+	/**
+	 * @param $metadata
+	 * @return false|string
+	 */
+	private static function get_full_asset_path( $metadata, $type ) {
+		$asset_path = self::remove_path_prefix( $metadata[$type] );
+		return self::get_full_path_for_file( $metadata, $asset_path );
+	}
+
+	/**
+	 * @param $metadata
+	 * @param $file
+	 * @return false|string
+	 */
+	private static function get_full_path_for_file( $metadata, $file ) {
+		return realpath( sprintf( '%s%s', trailingslashit( dirname( $metadata['file'] ) ), $file ) );
 	}
 
 }
