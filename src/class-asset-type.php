@@ -19,7 +19,7 @@
  * @since     1.0.0
  *
  * @package       Sixa_Blocks
- * @subpackage    Sixa_Blocks/Asset_Types
+ * @subpackage    Sixa_Blocks/Asset_Type
  */
 
 namespace Sixa_Blocks;
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( Asset_Types::class ) ) :
+if ( ! class_exists( Asset_Type::class ) ) :
 
 	/**
 	 * Constants used throughout this library.
@@ -93,12 +93,12 @@ if ( ! class_exists( Asset_Types::class ) ) :
 		 * @since    1.0.0
 		 */
 		public const SLUGS = array(
-			Asset_Types::STYLE => 'style',
-			Asset_Types::SCRIPT => 'script',
-			Asset_Types::EDITOR_SCRIPT => 'editor-script',
-			Asset_Types::EDITOR_STYLE => 'editor-style',
-			Asset_Types::FRONTEND_SCRIPT => 'frontend-script',
-			Asset_Types::FRONTEND_STYLE => 'frontend-style',
+			Asset_Type::STYLE => 'style',
+			Asset_Type::SCRIPT => 'script',
+			Asset_Type::EDITOR_SCRIPT => 'editor-script',
+			Asset_Type::EDITOR_STYLE => 'editor-style',
+			Asset_Type::FRONTEND_SCRIPT => 'frontend-script',
+			Asset_Type::FRONTEND_STYLE => 'frontend-style',
 		);
 
 	}
