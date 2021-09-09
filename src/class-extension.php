@@ -42,7 +42,7 @@ if ( ! class_exists( Extension::class ) ) :
 		}
 
 		/**
-		 * Registers the extension using the metadata loaded from the `extension.json` file.
+		 * Register the extension using the metadata loaded from the `extension.json` file.
 		 * Behind the scenes, it also registers all assets so they can be enqueued
 		 * through the block editor in the corresponding context.
 		 *
