@@ -2,12 +2,11 @@
 /**
  * Extension class file.
  *
- * The class in this file represents the default implementation of a simple Extension class.
- * Particularly, the class handles loading and reading local files relative to a plugin directory
- * as well as a composer package in order to enqueue assets.
- *
- * The class makes use of interfaces to detect additional functionality and is intended to require
- * at least one of them (otherwise no assets are loaded).
+ * The class in this file represents the default implementation
+ * of a simple extension class. Particularly, the class implements a
+ * simple initialization function that adds the registration
+ * function to the `init` WordPress hook. The registration function
+ * registers the block following the Gutenberg block registration API.
  *
  * @link          https://sixa.ch
  * @author        sixa AG
@@ -27,292 +26,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( Extension::class ) ) :
 
 	/**
-	 * Class to build WordPress extensions.
-	 *
-	 * Includes all relevant boilerplate and loading functions to enqueue assets for an
-	 * extension. Different types of assets are supported by implementing any of the
-	 * interfaces published in this library.
-	 *
-	 * This class is intended to be extended by the class of an actual extension. In addition,
-	 * extension classes are intended to implement any number of extension interfaces.
-	 * This class expects that the extending class implements at least one of the interfaces.
-	 * Otherwise no assets are loaded.
-	 *
-	 * @see    Extension_With_Editor_Assets      Indicates that the implementing Extensino class loads editor assets.
-	 * @see    Extension_With_Block_Assets       Indicates that the implementing Extension class loads block assets
-	 * @see    Extension_With_Frontend_Assets    Indicates that the implementing Extension class loads frontend assets.
-	 *
+	 * Extension Class containing default implementation.
 	 */
-	class Extension {
+	abstract class Extension {
 
 		/**
-		 * Name of the extension.
-		 * Used as a handle in the enqueue calls.
-		 *
-		 * @since     1.0.0
-		 * @var       string
-		 */
-		protected static string $name;
-
-		/**
-		 * Initialize the extension.
-		 *
-		 * During initialization, the function checks if the extending class assigns a `$name`
-		 * member value and throws an error if `$name` is not set.
-		 * Adds all relevant actions to enqueue the assets of this extension corresponding to
-		 * the interfaces that are implemented by the extending class.
+		 * Initialize the Extension.
+		 * Set up the WordPress hook to register the block.
 		 *
 		 * @since     1.0.0
 		 * @return    void
 		 */
 		public static function init(): void {
-			// Make sure that the implementing class assigns a `$name` and throw an error if it does not.
-			// We do this because `$name` is required for registering assets.
-			if ( ! isset( static::$name ) ) {
-				throw new \LogicException( sprintf( '%s must have a $name', static::class ) );
-			}
-
-			static::add_actions();
+			add_action( 'init', array( static::class, 'register' ) );
 		}
 
 		/**
-		 * Add WordPress actions to enqueue assets.
-		 *
-		 * Check if the used class implements any of the available interfaces. In case
-		 * that an interface is implemented, automatically add the corresponding
-		 * action for the required function (which is defined in the interface).
-		 *
-		 * Notice: This class expects that the extending class implements at least one
-		 * of the interfaces. Otherwise no assets are loaded.
+		 * Registers the extension using the metadata loaded from the `extension.json` file.
+		 * Behind the scenes, it also registers all assets so they can be enqueued
+		 * through the block editor in the corresponding context.
 		 *
 		 * @since     1.0.0
 		 * @return    void
 		 */
-		protected static function add_actions(): void {
-			$implemented_interfaces = class_implements( static::class );
-
-			if ( in_array( Extension_With_Editor_Assets::class, $implemented_interfaces ) ) {
-				// Enqueue assets in the editor.
-				add_action( 'enqueue_block_editor_assets', array( static::class, 'enqueue_editor_assets' ), 0 );
-			}
-
-			if ( in_array( Extension_With_Block_Assets::class, $implemented_interfaces ) ) {
-				// Enqueue assets in the editor as well as the frontend.
-				add_action( 'enqueue_block_assets', array( static::class, 'enqueue_block_assets' ), 0 );
-			}
-
-			if ( in_array( Extension_With_Frontend_Assets::class, $implemented_interfaces ) ) {
-				// Enqueue assets in the frontend.
-				add_action( 'wp_enqueue_scripts', array( static::class, 'enqueue_frontend_assets' ), 0 );
-			}
-		}
-
-		/**
-		 * Return the file name of the current class.
-		 * This can be `Extension` or any implementing class.
-		 *
-		 * @since     1.0.0
-		 * @return    string
-		 */
-		protected static function get_class_file_name(): string {
-			$reflector = new \ReflectionClass( static::class );
-			return $reflector->getFileName();
-		}
-
-		/**
-		 * Return the full absolute path of the build directory in an extension.
-		 * This is the full absolute path to the root directory of the extension with the
-		 * name of the build directory appended to it.
-		 *
-		 * Notice that this function assumes a certain structure of your extension package.
-		 * Particularly, this function assumes that the directory that contains the PHP
-		 * extension class is in a directory in the root directory of your extension.
-		 *
-		 * @since     1.0.0
-		 * @param     string    $build_dir    Name of the build directory.
-		 * @return    string
-		 */
-		protected static function get_build_dir_path( string $build_dir = API_Constants::BUILD_DIR ): string {
-			return trailingslashit( sprintf( '%s%s', trailingslashit( dirname( static::get_class_file_name(), 2 ) ), $build_dir ) );
-		}
-
-		/**
-		 * Return the full absolute path of the passed build file in an extension.
-		 * This is the full absolute path to the root directory of the extension with the
-		 * build directory and file name attached. The passed file must be inside the build
-		 * directory.
-		 *
-		 * @since     1.0.0
-		 * @param     string    $file_name    Name of a file (including extension).
-		 * @param     string    $build_dir    Name of the build directory.
-		 * @return    string
-		 */
-		protected static function get_build_file_path( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): string {
-			return sprintf( '%s%s', static::get_build_dir_path( $build_dir ), $file_name );
-		}
-
-		/**
-		 * Return the URL file path for the passed build file in an extension.
-		 *
-		 * @since     1.0.0
-		 * @param     string    $file_name    Name of a file (including extension).
-		 * @param     string    $build_dir    Name of the build directory.
-		 * @return    string
-		 */
-		protected static function get_build_file_url( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): string {
-			return sprintf( '%s%s%s', plugin_dir_url( dirname( static::get_class_file_name() ) ), trailingslashit( $build_dir ), $file_name );
-		}
-
-		/**
-		 * Return the full absolute path for a PHP asset file for a given build file
-		 * in an extension.
-		 *
-		 * @since     1.0.0
-		 * @param     string    $file_name    Name of a file (including extension).
-		 * @param     string    $build_dir    Name of the build directory.
-		 * @return    string
-		 */
-		protected static function get_build_asset_path( string $file_name, string $build_dir = API_Constants::BUILD_DIR ): string {
-			return static::get_build_file_path( static::get_asset_file_name( $file_name ), $build_dir );
-		}
-
-		/**
-		 * Build and return the asset file name from a build file name.
-		 *
-		 * The asset file is typically auto-generated and follows
-		 * a naming pattern relative to the original file name. For instance,
-		 * index.asset.php for index.js. This function returns the asset file
-		 * name following this pattern.
-		 *
-		 * @since     1.0.0
-		 * @param     string    $build_file_name    Name of the original file (e.g. index.js).
-		 * @return    string
-		 */
-		protected static function get_asset_file_name( string $build_file_name ): string {
-			$file_name_parts = explode( '.', $build_file_name );
-
-			if ( 2 !== count( $file_name_parts ) ) {
-				return '';
-			}
-
-			$asset_parts = array( $file_name_parts[0], 'asset', 'php' );
-			$asset_name = implode( '.', $asset_parts );
-			return $asset_name;
-		}
-
-		/**
-		 * Enqueue the passed script.
-		 *
-		 * In addition to simply passing the given file to the WordPress
-		 * enqueue function, this function builds and extracts all
-		 * relevant paths, names, and parameters.
-		 *
-		 * @since     1.0.0
-		 * @param     string      $file_name             Name of the build file to be enqueued.
-		 * @param     string      $asset_name            Script handle. Defaults to `static::$name`.
-		 * @param     string      $asset_path            Path to the asset file. Is built if not provided.
-		 * @param     string[]    $asset_dependencies    Array of dependencies for the given asset.
-		 *                                               Is loaded from `name.asset.php` if available; defaults to none (empty array).
-		 * @param     string      $asset_version         Version of the asset (used for browser caching).
-		 * @param     bool        $in_footer             Indicates if the script should be added in the footer.
-		 * @param     string      $build_dir             Name of the build directory.
-		 * @return    void
-		 */
-		protected static function enqueue_script(
-			string $file_name,
-			string $asset_name = '',
-			string $asset_path = '',
-			array $asset_dependencies = array(),
-			string $asset_version = '',
-			bool $in_footer = false,
-			string $build_dir = API_Constants::BUILD_DIR
-		): void {
-			$asset_name = ! empty( $asset_name ) ? $asset_name : static::$name;
-			$asset_path = ! empty( $asset_path ) ? $asset_path : static::get_build_file_url( $file_name, $build_dir );
-
-			if ( ! $asset_dependencies || ! $asset_version ) {
-				$asset_meta = static::get_asset_meta( $file_name, $build_dir );
-				$asset_dependencies = ! empty( $asset_dependencies ) ? $asset_dependencies : $asset_meta['dependencies'];
-				$asset_version = ! empty( $asset_version ) ? $asset_version : $asset_meta['version'];
-			}
-
-			wp_enqueue_script(
-				$asset_name,
-				$asset_path,
-				$asset_dependencies,
-				$asset_version,
-				$in_footer
-			);
-		}
-
-		/**
-		 * Enqueue the passed stylesheet.
-		 *
-		 * In addition to simply passing the given file to the WordPress
-		 * enqueue function, this function builds and extracts all
-		 * relevant paths, names, and parameters.
-		 *
-		 * @since     1.0.0
-		 * @param     string      $file_name             Name of the build file to be enqueued.
-		 * @param     string      $asset_name            Script handle. Defaults to `static::$name`.
-		 * @param     string      $asset_path            Path to the asset file. Is built if not provided.
-		 * @param     string[]    $asset_dependencies    Array of dependencies for the given asset.
-		 *                                               Is loaded from `name.asset.php` if available; defaults to none (empty array).
-		 * @param     string      $asset_version         Version of the asset (used for browser caching).
-		 * @param     string      $media             Indicates if the script should be added in the footer.
-		 * @param     string      $build_dir             Name of the build directory.
-		 * @return    void
-		 */
-		protected static function enqueue_style(
-			string $file_name,
-			string $asset_name = '',
-			string $asset_path = '',
-			array $asset_dependencies = array(),
-			string $asset_version = '',
-			string $media = 'all',
-			string $build_dir = API_Constants::BUILD_DIR
-		): void {
-			$asset_name = ! empty( $asset_name ) ? $asset_name : static::$name;
-			$asset_path = ! empty( $asset_path ) ? $asset_path : static::get_build_file_url( $file_name, $build_dir );
-
-			if ( ! $asset_dependencies || ! $asset_version ) {
-				$asset_meta = static::get_asset_meta( $file_name, $build_dir );
-				$asset_dependencies = ! empty( $asset_dependencies ) ? $asset_dependencies : $asset_meta['dependencies'];
-				$asset_version = ! empty( $asset_version ) ? $asset_version : $asset_meta['version'];
-			}
-
-			wp_enqueue_style(
-				$asset_name,
-				$asset_path,
-				$asset_dependencies,
-				$asset_version,
-				$media
-			);
-		}
-
-		/**
-		 * Return asset dependencies and asset version for the
-		 * given build file. If available, this information is extracted
-		 * from an auto-generated PHP asset file. Otherwise, this function
-		 * returns a set of fallback values.
-		 *
-		 * @since     1.0.0
-		 * @param     string    $file_name    Name of the build file to be enqueued.
-		 * @param     string    $build_dir    Name of the build directory.
-		 * @return    array
-		 */
-		protected static function get_asset_meta(string $file_name, string $build_dir = API_Constants::BUILD_DIR ): array {
-			$file_path = static::get_build_file_path( $file_name, $build_dir );
-			$asset_path = static::get_build_asset_path( $file_name, $build_dir );
-			$asset = file_exists( $asset_path )
-				? require $asset_path
-				: array(
-					'dependencies' => array(),
-					'version'      => filemtime( $file_path ),
-				);
-
-			return $asset;
-		}
+		abstract public static function register(): void;
 
 	}
 
