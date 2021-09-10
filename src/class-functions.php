@@ -26,7 +26,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( Functions::class ) ) :
 
-
+	/**
+	 * Functions Class.
+	 *
+	 * Contains functions to load and extract metadata from an `extension.json`
+	 * as well as registering and enqueueing script and style handles.
+	 */
 	final class Functions {
 
 		private const METADATA_FILE_NAME = 'extension.json';
