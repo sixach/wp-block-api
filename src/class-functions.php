@@ -64,6 +64,40 @@ if ( ! class_exists( Functions::class ) ) :
 			Extension_Registry::get_instance()->register( $extension );
 		}
 
+		/**
+		 * @param array $metadata
+		 * @param string $type
+		 * @return string
+		 */
+		private static function register_extension_script_handle( array $metadata, string $type ): string {
+			$handle = $metadata[$type];
+			$path = self::remove_path_prefix( $handle );
+
+			// Bail early if the passed path already is a handle (i.e. if it doesn't contain a 'file:' prefix)
+			if ( $handle === $path ) {
+				return $handle;
+			}
+
+			$handle = self::build_asset_handle( $metadata['name'], $type );
+			$asset_meta = self::get_asset_meta( $metadata, $type );
+
+			$result = wp_register_script(
+				$handle,
+				plugins_url( $path, $metadata['file'] ),
+				$asset_meta['dependencies'],
+				$asset_meta['version']
+			);
+
+			if ( ! $result ) {
+				// Bail early if the script could not be registered.
+				return '';
+			}
+
+			// TODO: do we need to add `wp_set_script_translations`?
+
+			return $handle;
+		}
+
 		public static function add_enqueueing_actions() {
 			if ( ! has_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ) ) ) {
 				add_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ), 0 );
@@ -109,40 +143,6 @@ if ( ! class_exists( Functions::class ) ) :
 				return sprintf( '%s%s', trailingslashit( $file_or_folder ), $metadata_filename );
 			}
 			return $file_or_folder;
-		}
-
-		/**
-		 * @param array $metadata
-		 * @param string $type
-		 * @return string
-		 */
-		private static function register_extension_script_handle( array $metadata, string $type ): string {
-			$handle = $metadata[$type];
-			$path = self::remove_path_prefix( $handle );
-
-			// Bail early if the passed path already is a handle (i.e. if it doesn't contain a 'file:' prefix)
-			if ( $handle === $path ) {
-				return $handle;
-			}
-
-			$handle = self::build_asset_handle( $metadata['name'], $type );
-			$asset_meta = self::get_asset_meta( $metadata, $type );
-
-			$result = wp_register_script(
-				$handle,
-				plugins_url( $path, $metadata['file'] ),
-				$asset_meta['dependencies'],
-				$asset_meta['version']
-			);
-
-			if ( ! $result ) {
-				// Bail early if the script could not be registered.
-				return '';
-			}
-
-			// TODO: do we need to add `wp_set_script_translations`?
-
-			return $handle;
 		}
 
 		/**
