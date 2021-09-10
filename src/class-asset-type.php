@@ -2,17 +2,17 @@
 /**
  * Constants for asset types.
  *
- * We introduce these asset types for the extension JSON definition. However, the naming and
- * usages of these asset types follows the same definitions that WordPress uses for blocks.
+ * We introduce these asset types for the extension JSON definition. The naming and usage
+ * of these asset types follows the same definitions that WordPress uses for blocks.
  * That is, we apply the same naming such that the prefix indicates where the assets are loaded
  * and no prefix indicates that the assets are loaded in the editor and the frontend.
  *
- *     `style` -> editor + frontend
- *     `script` -> editor + frontend
- *     `editorStyle` -> editor
- *     `editorScript` -> editor
- *     `frontendStyle` -> frontend
- *     `frontendScript` -> frontend
+ *     `style`           -->  editor + frontend
+ *     `script`          -->  editor + frontend
+ *     `editorStyle`     -->  editor
+ *     `editorScript`    -->  editor
+ *     `frontendStyle`   -->  frontend
+ *     `frontendScript`  -->  frontend
  *
  * @link          https://sixa.ch
  * @author        sixa AG
