@@ -19,6 +19,10 @@
 
 namespace Sixa_Blocks;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 final class Functions {
 
