@@ -55,7 +55,7 @@ if ( ! class_exists( Extension_Registry::class ) ) :
 		 * @return    void
 		 */
 		public function register( array $extension ): void {
-			// TODO: add _doing_it_wrong or WP_Error here ?
+			// TODO: add _doing_it_wrong or WP_Error here if $extension is ill-defined?
 			$this->registered_extensions[ $extension['name'] ] = $extension;
 		}
 
