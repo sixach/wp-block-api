@@ -1,4 +1,21 @@
 <?php
+/**
+ * Functions Class.
+ *
+ * This class contains a set of functions to enable extension registration with an
+ * `extension.json` configuration file. The structure and functionality of these
+ * functions mimics the approach that WordPress uses to register Blocks and Block Types
+ * very closely and, essentially, applies the same logic but for extensions.
+ *
+ * @see           https://github.com/WordPress/WordPress/blob/5.8-branch/wp-includes/blocks.php#L193
+ *
+ * @link          https://sixa.ch
+ * @author        sixa AG
+ * @since         1.0.0
+ *
+ * @package       Sixa_Blocks
+ * @subpackage    Sixa_Blocks/Extension_Registry
+ */
 
 namespace Sixa_Blocks;
 
