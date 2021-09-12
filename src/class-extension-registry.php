@@ -37,7 +37,7 @@ if ( ! class_exists( Extension_Registry::class ) ) :
 		 * @since    1.0.0
 		 * @var      array
 		 */
-		private array $registered_extensions = array();
+		private $registered_extensions = array();
 
 		/**
 		 * An instance of this class.
@@ -45,7 +45,7 @@ if ( ! class_exists( Extension_Registry::class ) ) :
 		 * @since    1.0.0
 		 * @var      Extension_Registry|null
 		 */
-		private static ?Extension_Registry $instance = null;
+		private static $instance = null;
 
 		/**
 		 * Register an extension.
