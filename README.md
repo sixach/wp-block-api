@@ -6,8 +6,8 @@ and more consistent.
 
 ## Requirements
 
-* PHP version 7.4 or greater
-* WordPress version 5.6 or greater
+* PHP version 7.2 or greater
+* WordPress version 5.7 or greater
 
 ## Installation
 
@@ -71,7 +71,7 @@ To run your block or extension as a standalone plugin, simply create a plugin fi
  * Description:          My block for WordPress editor.
  * Version:              1.0.0
  * Requires at least:    5.7
- * Requires PHP:         7.4
+ * Requires PHP:         7.2
  * Author:               sixa AG
  * License:              GPL v3 or later
  * License URI:          https://www.gnu.org/licenses/gpl-3.0.html
