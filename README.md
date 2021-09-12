@@ -28,7 +28,7 @@ and extend all relevant interfaces (for extensions):
 ```PHP
 namespace Sixa_Blocks;
 
-class My_Block extends Block {
+final class My_Block extends Block {
 
 	public static function register(): void {
 		register_block_type_from_metadata( dirname( __FILE__, 2 ) );
@@ -40,18 +40,71 @@ class My_Block extends Block {
 ```PHP
 namespace Sixa_Blocks;
 
-class My_Extension extends Extension implements Extension_With_Editor_Assets {
+final class My_Extension extends Extension {
 
-	protected static string $name = 'sixa-wp-extension-my-extension';
-
-	public static function enqueue_editor_assets(): void {
-		self::enqueue_script( 'index.js' );
+	public static function register(): void {
+		Functions::register_extension_from_metadata( dirname( __DIR__ ) );
 	}
 
 }
 ```
 
 Development and usage is simplified if all blocks and extensions use `namespace Sixa_Blocks`.
+
+### Create an `extension.json`
+
+Registration of extensions is done using a JSON configuration file akin to the `block.json`
+file that WordPress Core uses.
+
+Example:
+
+```JSON
+{
+	"name": "sixa-wp-extension-awesome-feature",
+	"frontendScript": "file:./build/script.js",
+	"frontendStyle": "file:./build/style.css",
+	"script": "file:./build/both.js",
+	"style": "file:./build/style-index.css",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/editor.css",
+	"requires": [
+		"sixa/add-to-cart"
+	]
+}
+```
+
+Currently, `extension.json` uses the following fields:
+
+#### name
+Defines the name of the extension. This field is heavily utilized for asset handles and must be unique.
+
+#### frontendScript
+File handle used for the script that's only enqueued in the frontend. Use `file:` prefix if you are
+passing a path to a local file. The path must be relative to `extension.json`.
+
+#### frontendStyle
+File handle used for the style that's only enqueued in the frontend. Use `file:` prefix if you are
+passing a path to a local file. The path must be relative to `extension.json`.
+
+#### script
+File handle used for the script that's enqueued in the editor and the frontend. Use `file:` prefix
+if you are passing a path to a local file. The path must be relative to `extension.json`.
+
+#### style
+File handle used for the style that's enqueued in the editor and the frontend. Use `file:` prefix 
+if you are passing a path to a local file. The path must be relative to `extension.json`.
+
+#### editorScript
+File handle used for the script that's only enqueued in the editor. Use `file:` prefix if you are
+passing a path to a local file. The path must be relative to `extension.json`.
+
+#### editorStyle
+File handle used for the style that's only enqueued in the editor. Use `file:` prefix if you are
+passing a path to a local file. The path must be relative to `extension.json`.
+
+#### requires
+This field is not implemented yet. Idea: conditionally enqueue scripts and styles in the frontend
+such that extension assets are only loaded if the required blocks are used on a page.
 
 ## In Projects
 Each block and extension includes an `init` function that can be called to initialize
