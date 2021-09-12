@@ -1,6 +1,6 @@
 <?php
 /**
- * Block class file.
+ * WooCommerce Block class file.
  *
  * The class in this file represents the default implementation
  * of a simple WooCommerce block class. In addition to the default
@@ -12,10 +12,12 @@
  * @since         1.0.0
  *
  * @package       Sixa_Blocks
- * @subpackage    Sixa_Blocks\Block
+ * @subpackage    Sixa_Blocks\WooCommerce_Block
  */
 
 namespace Sixa_Blocks;
+
+use Sixa_Snippets\Includes\Utils;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -43,33 +45,12 @@ if ( ! class_exists( WooCommerce_Block::class ) ) :
 		 */
 		public static function init(): void {
 			// Bail early if WooCommerce is not activated.
-			if ( ! static::is_woocommerce() ) {
+			if ( ! Utils::is_woocommerce_activated() ) {
 				return;
 			}
 
 			// Initialize the block from the parent function.
 			parent::init();
-		}
-
-		/**
-		 * Return `true` if WooCommerce is installed and `false` otherwise.
-		 *
-		 * @since     1.0.0
-		 * @return    bool
-		 */
-		private static function is_woocommerce(): bool {
-			// This statement prevents from producing fatal errors,
-			// in case the WooCommerce plugin is not activated on the site.
-			$woocommerce_plugin     = apply_filters( 'sixa_blocks_woocommerce_path', 'woocommerce/woocommerce.php' );
-			$subsite_active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
-			$network_active_plugins = apply_filters( 'active_plugins', get_site_option( 'active_sitewide_plugins' ) );
-
-			// Bail early in case the plugin is not activated on the website.
-			if ( ( empty( $subsite_active_plugins ) || ! in_array( $woocommerce_plugin, $subsite_active_plugins ) ) && ( empty( $network_active_plugins ) || ! array_key_exists( $woocommerce_plugin, $network_active_plugins ) ) ) {
-				return false;
-			}
-
-			return true;
 		}
 
 	}
