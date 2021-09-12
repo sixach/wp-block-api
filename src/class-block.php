@@ -20,7 +20,7 @@ namespace Sixa_Blocks;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 if ( ! class_exists( Block::class ) ) :

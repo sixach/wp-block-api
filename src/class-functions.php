@@ -57,9 +57,9 @@ if ( ! class_exists( Functions::class ) ) :
 		 * Register an extension with the metadata provided in the `extension.json`.
 		 *
 		 * @since     1.0.0
-		 * @param     string    $file_or_folder    Path to the JSON configuration file.
-		 *                                         Path may or may not include `extension.json` and also works
-		 *                                         if it is the path to the directory containing `extension.json`.
+		 * @param     string $file_or_folder    Path to the JSON configuration file.
+		 *                                      Path may or may not include `extension.json` and also works
+		 *                                      if it is the path to the directory containing `extension.json`.
 		 * @return    void
 		 */
 		public static function register_extension_from_metadata( string $file_or_folder ): void {
@@ -81,33 +81,33 @@ if ( ! class_exists( Functions::class ) ) :
 			$metadata['file'] = $metadata_file;
 
 			// Build the extension configuration map.
-			$extension = array();
+			$extension         = array();
 			$extension['name'] = $metadata['name'];
 
 			// Register asset handles. Note that the assets are only registered
 			// but not yet enqueued in the functions below.
 			if ( ! empty( $metadata[ Asset_Type::SCRIPT ] ) ) {
-				$extension[Asset_Type::SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::SCRIPT );
+				$extension[ Asset_Type::SCRIPT ] = self::register_extension_script_handle( $metadata, Asset_Type::SCRIPT );
 			}
 
 			if ( ! empty( $metadata[ Asset_Type::STYLE ] ) ) {
-				$extension[Asset_Type::STYLE] = self::register_extension_style_handle( $metadata, Asset_Type::STYLE );
+				$extension[ Asset_Type::STYLE ] = self::register_extension_style_handle( $metadata, Asset_Type::STYLE );
 			}
 
 			if ( ! empty( $metadata[ Asset_Type::EDITOR_SCRIPT ] ) ) {
-				$extension[Asset_Type::EDITOR_SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::EDITOR_SCRIPT );
+				$extension[ Asset_Type::EDITOR_SCRIPT ] = self::register_extension_script_handle( $metadata, Asset_Type::EDITOR_SCRIPT );
 			}
 
 			if ( ! empty( $metadata[ Asset_Type::EDITOR_STYLE ] ) ) {
-				$extension[Asset_Type::EDITOR_STYLE] = self::register_extension_style_handle( $metadata, Asset_Type::EDITOR_STYLE );
+				$extension[ Asset_Type::EDITOR_STYLE ] = self::register_extension_style_handle( $metadata, Asset_Type::EDITOR_STYLE );
 			}
 
 			if ( ! empty( $metadata[ Asset_Type::FRONTEND_SCRIPT ] ) ) {
-				$extension[Asset_Type::FRONTEND_SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::FRONTEND_SCRIPT );
+				$extension[ Asset_Type::FRONTEND_SCRIPT ] = self::register_extension_script_handle( $metadata, Asset_Type::FRONTEND_SCRIPT );
 			}
 
 			if ( ! empty( $metadata[ Asset_Type::FRONTEND_STYLE ] ) ) {
-				$extension[Asset_Type::FRONTEND_STYLE] = self::register_extension_style_handle( $metadata, Asset_Type::FRONTEND_STYLE );
+				$extension[ Asset_Type::FRONTEND_STYLE ] = self::register_extension_style_handle( $metadata, Asset_Type::FRONTEND_STYLE );
 			}
 
 			// Add the extension in the extension registry. This is used to enqueue extension assets subsequently.
@@ -118,14 +118,14 @@ if ( ! class_exists( Functions::class ) ) :
 		 * Register an extension script with a unique script handle.
 		 *
 		 * @since     1.0.0
-		 * @param     array     $metadata    The extracted and extended metadata for the current extension.
-		 * @param     string    $type        The type (frontend, editor, both) of asset that is being registered.
-		 *                                   The value passed is a value from `Sixa_Blocks\Asset_Type`.
+		 * @param     array  $metadata    The extracted and extended metadata for the current extension.
+		 * @param     string $type        The type (frontend, editor, both) of asset that is being registered.
+		 *                                The value passed is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    string                 The handle under which the script is registered.
 		 */
 		private static function register_extension_script_handle( array $metadata, string $type ): string {
-			$handle = $metadata[$type];
-			$path = self::remove_path_prefix( $handle );
+			$handle = $metadata[ $type ];
+			$path   = self::remove_path_prefix( $handle );
 
 			// Bail early if the passed path already is a handle (i.e. if it doesn't contain a 'file:' prefix).
 			// In this case we do not need to build a custom handle and rely on the assets being enqueued by
@@ -134,7 +134,7 @@ if ( ! class_exists( Functions::class ) ) :
 				return $handle;
 			}
 
-			$handle = self::build_asset_handle( $metadata['name'], $type );
+			$handle     = self::build_asset_handle( $metadata['name'], $type );
 			$asset_meta = self::get_asset_meta( $metadata, $type );
 
 			$result = wp_register_script(
@@ -158,14 +158,14 @@ if ( ! class_exists( Functions::class ) ) :
 		 * Register an extension style with a unique style handle.
 		 *
 		 * @since     1.0.0
-		 * @param     array     $metadata    The extracted and extended metadata for the current extension.
-		 * @param     string    $type        The type (frontend, editor, both) of asset that is being registered.
-		 *                                   The value passed is a value from `Sixa_Blocks\Asset_Type`.
+		 * @param     array  $metadata    The extracted and extended metadata for the current extension.
+		 * @param     string $type        The type (frontend, editor, both) of asset that is being registered.
+		 *                                The value passed is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    string                 The handle under which the script is registered.
 		 */
 		private static function register_extension_style_handle( array $metadata, string $type ): string {
-			$handle = $metadata[$type];
-			$path = self::remove_path_prefix( $handle );
+			$handle = $metadata[ $type ];
+			$path   = self::remove_path_prefix( $handle );
 
 			// Bail early if the passed path already is a handle (i.e. if it doesn't contain a 'file:' prefix).
 			// In this case we do not need to build a custom handle and rely on the assets being enqueued by
@@ -258,13 +258,13 @@ if ( ! class_exists( Functions::class ) ) :
 		 * Enqueue all scripts of the given type.
 		 *
 		 * @since     1.0.0
-		 * @param     string    $type    Type of the asset (frontend, editor, both).
-		 *                               Type is a value from `Sixa_Blocks\Asset_Type`.
+		 * @param     string $type    Type of the asset (frontend, editor, both).
+		 *                            Type is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    void
 		 */
 		private static function enqueue_scripts_by_type( string $type ): void {
 			$extension_registry = Extension_Registry::get_instance();
-			foreach( $extension_registry->get_registered_extensions() as $extension ) {
+			foreach ( $extension_registry->get_registered_extensions() as $extension ) {
 				if ( ! empty( $extension[ $type ] ) ) {
 					wp_enqueue_script( $extension[ $type ] );
 				}
@@ -275,13 +275,13 @@ if ( ! class_exists( Functions::class ) ) :
 		 * Enqueue all styles of the given type.
 		 *
 		 * @since     1.0.0
-		 * @param     string    $type    Type of the asset (frontend, editor, both).
-		 *                               Type is a value from `Sixa_Blocks\Asset_Type`.
+		 * @param     string $type    Type of the asset (frontend, editor, both).
+		 *                            Type is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    void
 		 */
 		private static function enqueue_styles_by_type( string $type ): void {
 			$extension_registry = Extension_Registry::get_instance();
-			foreach( $extension_registry->get_registered_extensions() as $extension ) {
+			foreach ( $extension_registry->get_registered_extensions() as $extension ) {
 				if ( ! empty( $extension[ $type ] ) ) {
 					wp_enqueue_style( $extension[ $type ] );
 				}
@@ -295,10 +295,10 @@ if ( ! class_exists( Functions::class ) ) :
 		 *     `path/to/directory/extension.json`
 		 *
 		 * @since     1.0.0
-		 * @param     string    $file_or_folder       Path to `extension.json` file or path to the
-		 *                                            directory containing an `extension.json` file.
-		 * @param     string    $metadata_filename    Name of the configuration file.
-		 *                                            Defaults to `Sixa_Blocks\Functions::METADATA_FILE_NAME`.
+		 * @param     string $file_or_folder       Path to `extension.json` file or path to the
+		 *                                         directory containing an `extension.json` file.
+		 * @param     string $metadata_filename    Name of the configuration file.
+		 *                                         Defaults to `Sixa_Blocks\Functions::METADATA_FILE_NAME`.
 		 * @return    string                          Path to `extension.json` file.
 		 */
 		private static function get_metadata_file_path_from_file_or_folder( string $file_or_folder, string $metadata_filename = self::METADATA_FILE_NAME ): string {
@@ -312,8 +312,8 @@ if ( ! class_exists( Functions::class ) ) :
 		 * Removes the file prefix for asset handles pointing to a file.
 		 *
 		 * @since     1.0.0
-		 * @param     string    $path      Path to `extension.json` possibly containing a file prefix.
-		 * @param     string    $prefix    Prefix to clean. Defaults to `Sixa_Blocks\Functions::PATH_PREFIX`.
+		 * @param     string $path      Path to `extension.json` possibly containing a file prefix.
+		 * @param     string $prefix    Prefix to clean. Defaults to `Sixa_Blocks\Functions::PATH_PREFIX`.
 		 * @return    string               Clean file path.
 		 */
 		private static function remove_path_prefix( string $path, string $prefix = self::PATH_PREFIX ): string {
@@ -329,8 +329,8 @@ if ( ! class_exists( Functions::class ) ) :
 		 * The handle is simply the name of the extension suffixed by the type of asset.
 		 *
 		 * @since     1.0.0
-		 * @param     string    $name    Name of the extension.
-		 * @param     string    $type    Type of the asset. Type is a value from `Sixa_Blocks\Asset_Type`.
+		 * @param     string $name    Name of the extension.
+		 * @param     string $type    Type of the asset. Type is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    string             Asset handle.
 		 */
 		private static function build_asset_handle( string $name, string $type ): string {
@@ -343,8 +343,8 @@ if ( ! class_exists( Functions::class ) ) :
 		 * of default values for the fields `dependencies` and `version`.
 		 *
 		 * @since     1.0.0
-		 * @param     array     $metadata    Extension metadata.
-		 * @param     string    $type        Type of the asset. Type is a value from `Sixa_Blocks\Asset_Type`.
+		 * @param     array  $metadata    Extension metadata.
+		 * @param     string $type        Type of the asset. Type is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    array                  Asset metadata.
 		 */
 		private static function get_asset_meta( array $metadata, string $type ): array {
@@ -363,12 +363,12 @@ if ( ! class_exists( Functions::class ) ) :
 		 * Asset metadata file is assumed to have the same name but with an `.asset.php` file extension.
 		 *
 		 * @since     1.0.0
-		 * @param     array     $metadata    Extension metadata.
-		 * @param     string    $type        Type of the asset. Type is a value from `Sixa_Blocks\Asset_Type`.
+		 * @param     array  $metadata    Extension metadata.
+		 * @param     string $type        Type of the asset. Type is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    string                 Path to the asset metadata file.
 		 */
 		private static function get_asset_meta_path( $metadata, $type ): string {
-			$asset_path = self::remove_path_prefix( $metadata[$type ]);
+			$asset_path      = self::remove_path_prefix( $metadata[ $type ] );
 			$asset_meta_path = substr_replace( $asset_path, '.asset.php', strlen( '.js' ) * -1 );
 			return self::get_full_path_for_file( $metadata, $asset_meta_path );
 		}
@@ -378,12 +378,12 @@ if ( ! class_exists( Functions::class ) ) :
 		 * The name and path to the asset file are extracted from the extension metadata.
 		 *
 		 * @since     1.0.0
-		 * @param     array     $metadata    Extension metadata.
-		 * @param     string    $type        Type of the asset. Type is a value from `Sixa_Blocks\Asset_Type`.
+		 * @param     array  $metadata    Extension metadata.
+		 * @param     string $type        Type of the asset. Type is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    string                 Path to the asset file of given type.
 		 */
 		private static function get_full_asset_path( array $metadata, string $type ): string {
-			$asset_path = self::remove_path_prefix( $metadata[$type] );
+			$asset_path = self::remove_path_prefix( $metadata[ $type ] );
 			return self::get_full_path_for_file( $metadata, $asset_path );
 		}
 
@@ -391,8 +391,8 @@ if ( ! class_exists( Functions::class ) ) :
 		 * Build and return the full path for the given file from a relative path.
 		 *
 		 * @since     1.0.0
-		 * @param     array     $metadata    Extension metadata.
-		 * @param     string    $file        Relative path to a file.
+		 * @param     array  $metadata    Extension metadata.
+		 * @param     string $file        Relative path to a file.
 		 * @return    string                 Full path to the given file.
 		 */
 		private static function get_full_path_for_file( $metadata, $file ): string {

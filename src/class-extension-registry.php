@@ -51,7 +51,7 @@ if ( ! class_exists( Extension_Registry::class ) ) :
 		 * Register an extension.
 		 *
 		 * @since     1.0.0
-		 * @param     array    $extension
+		 * @param     array $extension
 		 * @return    void
 		 */
 		public function register( array $extension ): void {

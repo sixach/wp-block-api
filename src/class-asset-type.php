@@ -93,12 +93,12 @@ if ( ! class_exists( Asset_Type::class ) ) :
 		 * @since    1.0.0
 		 */
 		public const SLUGS = array(
-			Asset_Type::STYLE => 'style',
-			Asset_Type::SCRIPT => 'script',
-			Asset_Type::EDITOR_SCRIPT => 'editor-script',
-			Asset_Type::EDITOR_STYLE => 'editor-style',
-			Asset_Type::FRONTEND_SCRIPT => 'frontend-script',
-			Asset_Type::FRONTEND_STYLE => 'frontend-style',
+			self::STYLE           => 'style',
+			self::SCRIPT          => 'script',
+			self::EDITOR_SCRIPT   => 'editor-script',
+			self::EDITOR_STYLE    => 'editor-style',
+			self::FRONTEND_SCRIPT => 'frontend-script',
+			self::FRONTEND_STYLE  => 'frontend-style',
 		);
 
 	}
