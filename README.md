@@ -173,7 +173,7 @@ Notice that there is no need to defer the `init` call to any WordPress hook in y
 Blocks or extensions implement all relevant hooks.
 
 ---
-# Available Classes and Interfaces
+# Available Classes
 
 In this section we elaborate on the available classes and interfaces and outline
 how we intend them to be used.
@@ -222,7 +222,7 @@ final class My_Block extends Block {
 		);
 	}
 	
-	public static function render( array $attributes = array() ): strign {
+	public static function render( array $attributes = array() ): string {
 		// Add your render callback here.
 	}
 
@@ -251,7 +251,6 @@ Other than that, `Sixa_Blocks\WooCommerce_Block` is identical to `Sixa_Blocks\Bl
 
 ### Basic Example
 
-
 ```PHP
 namespace Sixa_Blocks;
 
@@ -267,4 +266,26 @@ final class My_WooCommerce_Block extends WooCommerce_Block {
 `Sixa_Blocks\My_WooCommerce_Block::register()` is automatically **not** called if 
 WooCommerce is not installed.
 
-## Class Extension
+## Abstract Class Extension
+
+A simple extension class that includes the default implementation of an extension. Particularly,
+`Sixa_Blocks\Extension` includes and performs block initialization and adds 
+`Sixa_Blocks\Extension::register()` to the WordPress action hook `init`.
+
+`Sixa_Blocks\Extension::register()` is not implemented. In its most basic form, a
+simple block only needs to implement this function and perform 
+`Sixa_Blocks\Functions::register_extension_from_metadata` according to the  extension requirements.
+
+### Basic Example
+
+```PHP
+namespace Sixa_Blocks;
+
+final class My_Extension extends Extension {
+
+	public static function register(): void {
+		Functions::register_extension_from_metadata( dirname( __DIR__ ) );
+	}
+
+}
+```
