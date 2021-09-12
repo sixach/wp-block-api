@@ -66,7 +66,7 @@ Example:
 	"script": "file:./build/both.js",
 	"style": "file:./build/style-index.css",
 	"editorScript": "file:./build/index.js",
-	"editorStyle": "file:./build/editor.css",
+	"editorStyle": "file:./build/index.css",
 	"requires": [
 		"sixa/add-to-cart"
 	]
@@ -168,6 +168,9 @@ Next, simply call the `init` function:
 ```PHP
 Sixa_Blocks\My_Block::init();
 ```
+
+Notice that there is no need to defer the `init` call to any WordPress hook in your project.
+Blocks or extensions implement all relevant hooks.
 
 ---
 # Available Classes and Interfaces
