@@ -6,8 +6,8 @@ and more consistent.
 
 ## Requirements
 
-* PHP version 7.4 or greater
-* WordPress version 5.6 or greater
+* PHP version 7.2 or greater
+* WordPress version 5.7 or greater
 
 ## Installation
 
@@ -28,7 +28,7 @@ and extend all relevant interfaces (for extensions):
 ```PHP
 namespace Sixa_Blocks;
 
-class My_Block extends Block {
+final class My_Block extends Block {
 
 	public static function register(): void {
 		register_block_type_from_metadata( dirname( __FILE__, 2 ) );
@@ -40,18 +40,71 @@ class My_Block extends Block {
 ```PHP
 namespace Sixa_Blocks;
 
-class My_Extension extends Extension implements Extension_With_Editor_Assets {
+final class My_Extension extends Extension {
 
-	protected static string $name = 'sixa-wp-extension-my-extension';
-
-	public static function enqueue_editor_assets(): void {
-		self::enqueue_script( 'index.js' );
+	public static function register(): void {
+		Functions::register_extension_from_metadata( dirname( __DIR__ ) );
 	}
 
 }
 ```
 
 Development and usage is simplified if all blocks and extensions use `namespace Sixa_Blocks`.
+
+### Create an `extension.json`
+
+Registration of extensions is done using a JSON configuration file akin to the `block.json`
+file that WordPress Core uses.
+
+Example:
+
+```JSON
+{
+	"name": "sixa-wp-extension-awesome-feature",
+	"frontendScript": "file:./build/script.js",
+	"frontendStyle": "file:./build/style.css",
+	"script": "file:./build/both.js",
+	"style": "file:./build/style-index.css",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"requires": [
+		"sixa/add-to-cart"
+	]
+}
+```
+
+Currently, `extension.json` uses the following fields:
+
+#### name
+Defines the name of the extension. This field is heavily utilized for asset handles and must be unique.
+
+#### frontendScript
+File handle used for the script that's only enqueued in the frontend. Use `file:` prefix if you are
+passing a path to a local file. The path must be relative to `extension.json`.
+
+#### frontendStyle
+File handle used for the style that's only enqueued in the frontend. Use `file:` prefix if you are
+passing a path to a local file. The path must be relative to `extension.json`.
+
+#### script
+File handle used for the script that's enqueued in the editor and the frontend. Use `file:` prefix
+if you are passing a path to a local file. The path must be relative to `extension.json`.
+
+#### style
+File handle used for the style that's enqueued in the editor and the frontend. Use `file:` prefix 
+if you are passing a path to a local file. The path must be relative to `extension.json`.
+
+#### editorScript
+File handle used for the script that's only enqueued in the editor. Use `file:` prefix if you are
+passing a path to a local file. The path must be relative to `extension.json`.
+
+#### editorStyle
+File handle used for the style that's only enqueued in the editor. Use `file:` prefix if you are
+passing a path to a local file. The path must be relative to `extension.json`.
+
+#### requires
+This field is not implemented yet. Idea: conditionally enqueue scripts and styles in the frontend
+such that extension assets are only loaded if the required blocks are used on a page.
 
 ## In Projects
 Each block and extension includes an `init` function that can be called to initialize
@@ -71,7 +124,7 @@ To run your block or extension as a standalone plugin, simply create a plugin fi
  * Description:          My block for WordPress editor.
  * Version:              1.0.0
  * Requires at least:    5.7
- * Requires PHP:         7.4
+ * Requires PHP:         7.2
  * Author:               sixa AG
  * License:              GPL v3 or later
  * License URI:          https://www.gnu.org/licenses/gpl-3.0.html
@@ -116,8 +169,11 @@ Next, simply call the `init` function:
 Sixa_Blocks\My_Block::init();
 ```
 
+Notice that there is no need to defer the `init` call to any WordPress hook in your project.
+Blocks or extensions implement all relevant hooks.
+
 ---
-# Available Classes and Interfaces
+# Available Classes
 
 In this section we elaborate on the available classes and interfaces and outline
 how we intend them to be used.
@@ -195,7 +251,6 @@ Other than that, `Sixa_Blocks\WooCommerce_Block` is identical to `Sixa_Blocks\Bl
 
 ### Basic Example
 
-
 ```PHP
 namespace Sixa_Blocks;
 
@@ -211,4 +266,26 @@ final class My_WooCommerce_Block extends WooCommerce_Block {
 `Sixa_Blocks\My_WooCommerce_Block::register()` is automatically **not** called if 
 WooCommerce is not installed.
 
-## Class Extension
+## Abstract Class Extension
+
+A simple extension class that includes the default implementation of an extension. Particularly,
+`Sixa_Blocks\Extension` includes and performs block initialization and adds 
+`Sixa_Blocks\Extension::register()` to the WordPress action hook `init`.
+
+`Sixa_Blocks\Extension::register()` is not implemented. In its most basic form, a
+simple block only needs to implement this function and perform 
+`Sixa_Blocks\Functions::register_extension_from_metadata` according to the  extension requirements.
+
+### Basic Example
+
+```PHP
+namespace Sixa_Blocks;
+
+final class My_Extension extends Extension {
+
+	public static function register(): void {
+		Functions::register_extension_from_metadata( dirname( __DIR__ ) );
+	}
+
+}
+```
