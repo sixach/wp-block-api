@@ -4,8 +4,77 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3bd35134f09ec1155e930c171a1feda5",
-    "packages": [],
+    "content-hash": "feb16ef6f5dda67f587b1097adb173a2",
+    "packages": [
+        {
+            "name": "sixach/wp-snippets",
+            "version": "dev-utils",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:sixach/wp-snippets.git",
+                "reference": "be704bb29553fda27085409e9b6f455fba0ac4ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sixach/wp-snippets/zipball/be704bb29553fda27085409e9b6f455fba0ac4ea",
+                "reference": "be704bb29553fda27085409e9b6f455fba0ac4ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+                "php-parallel-lint/php-parallel-lint": "^1.2.0",
+                "phpcompatibility/phpcompatibility-wp": "^2.1",
+                "phpunit/phpunit": "^7",
+                "woocommerce/woocommerce-git-hooks": "*",
+                "woocommerce/woocommerce-sniffs": "*",
+                "wp-cli/i18n-command": "^2.2.6",
+                "wp-coding-standards/wpcs": "^2.3.0"
+            },
+            "type": "wordpress-plugin",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "scripts": {
+                "lint:wpcs": [
+                    "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
+                ],
+                "lint:wpcbf": [
+                    "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
+                ],
+                "lint:php": [
+                    "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor --exclude node_modules ."
+                ],
+                "make-pot": [
+                    "wp i18n make-pot . languages/@@textdomain.pot --exclude=build"
+                ]
+            },
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "sixa AG",
+                    "homepage": "https://sixa.ch"
+                }
+            ],
+            "description": "A plugin containing factory classes or methods for the Sixa projects.",
+            "homepage": "https://www.sixa.ch",
+            "keywords": [
+                "Plugin",
+                "WordPress"
+            ],
+            "support": {
+                "source": "https://github.com/sixach/wp-snippets/tree/utils",
+                "issues": "https://github.com/sixach/wp-snippets/issues"
+            },
+            "time": "2021-09-12T14:05:52+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
@@ -703,33 +772,33 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.13.0",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "be1996ed8adc35c3fd795488a653f4b518be70ea"
+                "reference": "d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/be1996ed8adc35c3fd795488a653f4b518be70ea",
-                "reference": "be1996ed8adc35c3fd795488a653f4b518be70ea",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e",
+                "reference": "d86dfc2e2a3cd366cee475e52c6bb3bbc371aa0e",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.2",
-                "php": "^7.2 || ~8.0, <8.1",
+                "php": "^7.2 || ~8.0, <8.2",
                 "phpdocumentor/reflection-docblock": "^5.2",
                 "sebastian/comparator": "^3.0 || ^4.0",
                 "sebastian/recursion-context": "^3.0 || ^4.0"
             },
             "require-dev": {
-                "phpspec/phpspec": "^6.0",
+                "phpspec/phpspec": "^6.0 || ^7.0",
                 "phpunit/phpunit": "^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.11.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -764,9 +833,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpspec/prophecy/issues",
-                "source": "https://github.com/phpspec/prophecy/tree/1.13.0"
+                "source": "https://github.com/phpspec/prophecy/tree/1.14.0"
             },
-            "time": "2021-03-17T13:42:18+00:00"
+            "time": "2021-09-10T09:02:12+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2109,7 +2178,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "sixach/wp-snippets": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

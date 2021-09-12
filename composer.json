@@ -16,7 +16,8 @@
 		}
 	],
 	"require": {
-		"php": ">=7.2"
+		"php": ">=7.2",
+		"sixach/wp-snippets": "dev-utils"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
@@ -30,6 +31,12 @@
 		"lint:wpcbf": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf",
 		"lint:php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor --exclude node_modules ."
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url":  "git@github.com:sixach/wp-snippets.git"
+		}
+	],
 	"autoload": {
 		"classmap": ["src"]
 	}
