@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:sixach/wp-snippets.git",
-                "reference": "be704bb29553fda27085409e9b6f455fba0ac4ea"
+                "reference": "eea4cd222d8f49df5aa94062afcc2d66f7ae852a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sixach/wp-snippets/zipball/be704bb29553fda27085409e9b6f455fba0ac4ea",
-                "reference": "be704bb29553fda27085409e9b6f455fba0ac4ea",
+                "url": "https://api.github.com/repos/sixach/wp-snippets/zipball/eea4cd222d8f49df5aa94062afcc2d66f7ae852a",
+                "reference": "eea4cd222d8f49df5aa94062afcc2d66f7ae852a",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "source": "https://github.com/sixach/wp-snippets/tree/utils",
                 "issues": "https://github.com/sixach/wp-snippets/issues"
             },
-            "time": "2021-09-12T14:05:52+00:00"
+            "time": "2021-09-12T15:00:51+00:00"
         }
     ],
     "packages-dev": [
