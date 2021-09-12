@@ -90,12 +90,24 @@ if ( ! class_exists( Functions::class ) ) :
 				$extension[Asset_Type::SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::SCRIPT );
 			}
 
+			if ( ! empty( $metadata[ Asset_Type::STYLE ] ) ) {
+				$extension[Asset_Type::STYLE] = self::register_extension_style_handle( $metadata, Asset_Type::STYLE );
+			}
+
 			if ( ! empty( $metadata[ Asset_Type::EDITOR_SCRIPT ] ) ) {
 				$extension[Asset_Type::EDITOR_SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::EDITOR_SCRIPT );
 			}
 
+			if ( ! empty( $metadata[ Asset_Type::EDITOR_STYLE ] ) ) {
+				$extension[Asset_Type::EDITOR_STYLE] = self::register_extension_style_handle( $metadata, Asset_Type::EDITOR_STYLE );
+			}
+
 			if ( ! empty( $metadata[ Asset_Type::FRONTEND_SCRIPT ] ) ) {
 				$extension[Asset_Type::FRONTEND_SCRIPT] = self::register_extension_script_handle( $metadata, Asset_Type::FRONTEND_SCRIPT );
+			}
+
+			if ( ! empty( $metadata[ Asset_Type::FRONTEND_STYLE ] ) ) {
+				$extension[Asset_Type::FRONTEND_STYLE] = self::register_extension_style_handle( $metadata, Asset_Type::FRONTEND_STYLE );
 			}
 
 			// Add the extension in the extension registry. This is used to enqueue extension assets subsequently.
@@ -143,6 +155,41 @@ if ( ! class_exists( Functions::class ) ) :
 		}
 
 		/**
+		 * Register an extension style with a unique style handle.
+		 *
+		 * @since     1.0.0
+		 * @param     array     $metadata    The extracted and extended metadata for the current extension.
+		 * @param     string    $type        The type (frontend, editor, both) of asset that is being registered.
+		 *                                   The value passed is a value from `Sixa_Blocks\Asset_Type`.
+		 * @return    string                 The handle under which the script is registered.
+		 */
+		private static function register_extension_style_handle( array $metadata, string $type ): string {
+			$handle = $metadata[$type];
+			$path = self::remove_path_prefix( $handle );
+
+			// Bail early if the passed path already is a handle (i.e. if it doesn't contain a 'file:' prefix).
+			// In this case we do not need to build a custom handle and rely on the assets being enqueued by
+			// the extension author.
+			if ( $handle === $path ) {
+				return $handle;
+			}
+
+			$handle = self::build_asset_handle( $metadata['name'], $type );
+
+			$result = wp_register_style(
+				$handle,
+				plugins_url( $path, $metadata['file'] )
+			);
+
+			// Bail early if the script could not be registered.
+			if ( ! $result ) {
+				return '';
+			}
+
+			return $handle;
+		}
+
+		/**
 		 * Register action hooks for asset registration.
 		 * Only register actions if they are not already present.
 		 *
@@ -177,7 +224,8 @@ if ( ! class_exists( Functions::class ) ) :
 		 * @return    void
 		 */
 		public static function enqueue_block_assets(): void {
-			self::enqueue_assets_by_type( Asset_Type::SCRIPT );
+			self::enqueue_scripts_by_type( Asset_Type::SCRIPT );
+			self::enqueue_styles_by_type( Asset_Type::STYLE );
 		}
 
 		/**
@@ -189,7 +237,8 @@ if ( ! class_exists( Functions::class ) ) :
 		 * @return    void
 		 */
 		public static function enqueue_editor_assets(): void {
-			self::enqueue_assets_by_type( Asset_Type::EDITOR_SCRIPT );
+			self::enqueue_scripts_by_type( Asset_Type::EDITOR_SCRIPT );
+			self::enqueue_styles_by_type( Asset_Type::EDITOR_STYLE );
 		}
 
 		/**
@@ -201,22 +250,40 @@ if ( ! class_exists( Functions::class ) ) :
 		 * @return    void
 		 */
 		public static function enqueue_frontend_assets(): void {
-			self::enqueue_assets_by_type( Asset_Type::FRONTEND_SCRIPT );
+			self::enqueue_scripts_by_type( Asset_Type::FRONTEND_SCRIPT );
+			self::enqueue_styles_by_type( Asset_Type::FRONTEND_STYLE );
 		}
 
 		/**
-		 * Enqueue all assets of the given type.
+		 * Enqueue all scripts of the given type.
 		 *
 		 * @since     1.0.0
 		 * @param     string    $type    Type of the asset (frontend, editor, both).
 		 *                               Type is a value from `Sixa_Blocks\Asset_Type`.
 		 * @return    void
 		 */
-		private static function enqueue_assets_by_type( string $type ): void {
+		private static function enqueue_scripts_by_type( string $type ): void {
 			$extension_registry = Extension_Registry::get_instance();
 			foreach( $extension_registry->get_registered_extensions() as $extension ) {
 				if ( ! empty( $extension[ $type ] ) ) {
 					wp_enqueue_script( $extension[ $type ] );
+				}
+			}
+		}
+
+		/**
+		 * Enqueue all styles of the given type.
+		 *
+		 * @since     1.0.0
+		 * @param     string    $type    Type of the asset (frontend, editor, both).
+		 *                               Type is a value from `Sixa_Blocks\Asset_Type`.
+		 * @return    void
+		 */
+		private static function enqueue_styles_by_type( string $type ): void {
+			$extension_registry = Extension_Registry::get_instance();
+			foreach( $extension_registry->get_registered_extensions() as $extension ) {
+				if ( ! empty( $extension[ $type ] ) ) {
+					wp_enqueue_style( $extension[ $type ] );
 				}
 			}
 		}
