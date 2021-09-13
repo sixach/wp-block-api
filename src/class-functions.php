@@ -269,6 +269,7 @@ if ( ! class_exists( Functions::class ) ) :
 				return true;
 			}
 
+			// Bail early if at least one matching block is found.
 			foreach ( $extension['requires'] as $required_block ) {
 				if ( has_block( $required_block ) ) {
 					return true;
