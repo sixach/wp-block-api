@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "feb16ef6f5dda67f587b1097adb173a2",
+    "content-hash": "495b3e6ff6ba5f76b794bfec847d63f9",
     "packages": [
         {
             "name": "sixach/wp-snippets",
@@ -12,16 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:sixach/wp-snippets.git",
-                "reference": "eea4cd222d8f49df5aa94062afcc2d66f7ae852a"
+                "reference": "bae9a8def2745a7a942c80f457311d5c2c481791"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sixach/wp-snippets/zipball/eea4cd222d8f49df5aa94062afcc2d66f7ae852a",
-                "reference": "eea4cd222d8f49df5aa94062afcc2d66f7ae852a",
+                "url": "https://api.github.com/repos/sixach/wp-snippets/zipball/bae9a8def2745a7a942c80f457311d5c2c481791",
+                "reference": "bae9a8def2745a7a942c80f457311d5c2c481791",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2"
+                "php": ">=7.3"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
@@ -72,7 +72,7 @@
                 "source": "https://github.com/sixach/wp-snippets/tree/utils",
                 "issues": "https://github.com/sixach/wp-snippets/issues"
             },
-            "time": "2021-09-12T15:00:51+00:00"
+            "time": "2021-09-13T17:12:09+00:00"
         }
     ],
     "packages-dev": [
@@ -2184,7 +2184,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": ">=7.3"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
