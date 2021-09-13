@@ -103,8 +103,9 @@ File handle used for the style that's only enqueued in the editor. Use `file:` p
 passing a path to a local file. The path must be relative to `extension.json`.
 
 #### requires
-This field is not implemented yet. Idea: conditionally enqueue scripts and styles in the frontend
-such that extension assets are only loaded if the required blocks are used on a page.
+An array of block names that the given extension requires. During asset enqueueing, the post
+content is check if at least one of the passed blocks is present. If it is not, the extension
+assets are not enqueued to improve performance.
 
 ## In Projects
 Each block and extension includes an `init` function that can be called to initialize

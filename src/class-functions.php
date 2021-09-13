@@ -81,8 +81,9 @@ if ( ! class_exists( Functions::class ) ) :
 			$metadata['file'] = $metadata_file;
 
 			// Build the extension configuration map.
-			$extension         = array();
-			$extension['name'] = $metadata['name'];
+			$extension             = array();
+			$extension['name']     = $metadata['name'];
+			$extension['requires'] = $metadata['requires'] ?? array();
 
 			// Register asset handles. Note that the assets are only registered
 			// but not yet enqueued in the functions below.
@@ -255,7 +256,31 @@ if ( ! class_exists( Functions::class ) ) :
 		}
 
 		/**
+		 * Returns if at least one of the blocks from the `requires` field
+		 * is used or if the current screen is the editor screen.
+		 *
+		 * @see       https://developer.wordpress.org/reference/functions/wp_should_load_block_editor_scripts_and_styles/
+		 * @since     1.0.0
+		 * @param     $extension
+		 * @return    bool
+		 */
+		private static function should_load_extension_assets( $extension ) {
+			if ( empty( $extension['requires'] ) ) {
+				return true;
+			}
+
+			foreach ( $extension['requires'] as $required_block ) {
+				if ( has_block( $required_block ) ) {
+					return true;
+				}
+			}
+			return wp_should_load_block_editor_scripts_and_styles();
+		}
+
+		/**
 		 * Enqueue all scripts of the given type.
+		 * Assets in the frontend are only enqueued if at least one
+		 * block from `requires` is used.
 		 *
 		 * @since     1.0.0
 		 * @param     string $type    Type of the asset (frontend, editor, both).
@@ -265,7 +290,7 @@ if ( ! class_exists( Functions::class ) ) :
 		private static function enqueue_scripts_by_type( string $type ): void {
 			$extension_registry = Extension_Registry::get_instance();
 			foreach ( $extension_registry->get_registered_extensions() as $extension ) {
-				if ( ! empty( $extension[ $type ] ) ) {
+				if ( ! empty( $extension[ $type ] ) && self::should_load_extension_assets( $extension ) ) {
 					wp_enqueue_script( $extension[ $type ] );
 				}
 			}
@@ -273,6 +298,8 @@ if ( ! class_exists( Functions::class ) ) :
 
 		/**
 		 * Enqueue all styles of the given type.
+		 * Assets in the frontend are only enqueued if at least one
+		 * block from `requires` is used.
 		 *
 		 * @since     1.0.0
 		 * @param     string $type    Type of the asset (frontend, editor, both).
@@ -282,7 +309,7 @@ if ( ! class_exists( Functions::class ) ) :
 		private static function enqueue_styles_by_type( string $type ): void {
 			$extension_registry = Extension_Registry::get_instance();
 			foreach ( $extension_registry->get_registered_extensions() as $extension ) {
-				if ( ! empty( $extension[ $type ] ) ) {
+				if ( ! empty( $extension[ $type ] ) && self::should_load_extension_assets( $extension ) ) {
 					wp_enqueue_style( $extension[ $type ] );
 				}
 			}
