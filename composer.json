@@ -17,7 +17,7 @@
 	],
 	"require": {
 		"php": ">=7.3",
-		"sixach/wp-snippets": "dev-utils"
+		"sixach/wp-snippets": "^1.3.0"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
