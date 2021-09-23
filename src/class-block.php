@@ -34,6 +34,8 @@ if ( ! class_exists( Block::class ) ) :
 		 * Record if the block was initialized to make sure it is
 		 * initialized at most once.
 		 *
+		 * @since    1.0.1
+		 *           Changed visibility to protected.
 		 * @since    1.0.0
 		 * @var      bool
 		 */
