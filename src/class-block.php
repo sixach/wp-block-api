@@ -37,7 +37,7 @@ if ( ! class_exists( Block::class ) ) :
 		 * @since    1.0.0
 		 * @var      bool
 		 */
-		private static $was_initialized = false;
+		protected static $was_initialized = false;
 
 		/**
 		 * Initialize the block.
