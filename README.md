@@ -6,7 +6,7 @@ and more consistent.
 
 ## Requirements
 
-* PHP version 7.2 or greater
+* PHP version 7.3 or greater
 * WordPress version 5.7 or greater
 
 ## Installation
@@ -16,6 +16,10 @@ on your computer in order to build and use this package.
 
 * Add this package to the `require` field in your `composer.json`
 * Import `vendor/autoload.php` in your project
+
+```bash
+composer require sixach/wp-block-api
+```
 
 ---
 
@@ -31,7 +35,7 @@ namespace Sixa_Blocks;
 final class My_Block extends Block {
 
 	public static function register(): void {
-		register_block_type_from_metadata( dirname( __FILE__, 2 ) );
+		register_block_type_from_metadata( plugin_dir_path( __DIR__ ) );
 	}
 
 }
@@ -43,7 +47,7 @@ namespace Sixa_Blocks;
 final class My_Extension extends Extension {
 
 	public static function register(): void {
-		Functions::register_extension_from_metadata( dirname( __DIR__ ) );
+		Functions::register_extension_from_metadata( plugin_dir_path( __DIR__ ) );
 	}
 
 }
@@ -197,7 +201,7 @@ namespace Sixa_Blocks;
 final class My_Basic_Block extends Block {
 
 	public static function register(): void {
-		register_block_type_from_metadata( dirname( __FILE__, 2 ) );
+		register_block_type_from_metadata( plugin_dir_path( __DIR__ ) );
 	}
 
 }
@@ -216,7 +220,7 @@ final class My_Block extends Block {
 	public static function register(): void {
 		self::some_setup();
 		register_block_type_from_metadata(
-			dirname( __DIR__ ),
+			plugin_dir_path( __DIR__ ),
 			array(
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
@@ -258,7 +262,7 @@ namespace Sixa_Blocks;
 final class My_WooCommerce_Block extends WooCommerce_Block {
 
 	public static function register(): void {
-		register_block_type_from_metadata( dirname( __FILE__, 2 ) );
+		register_block_type_from_metadata( plugin_dir_path( __DIR__ ) );
 	}
 
 }
@@ -285,7 +289,7 @@ namespace Sixa_Blocks;
 final class My_Extension extends Extension {
 
 	public static function register(): void {
-		Functions::register_extension_from_metadata( dirname( __DIR__ ) );
+		Functions::register_extension_from_metadata( plugin_dir_path( __DIR__ ) );
 	}
 
 }
