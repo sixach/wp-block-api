@@ -331,7 +331,7 @@ if ( ! class_exists( Functions::class ) ) :
 		 * @return    string                          Path to `extension.json` file.
 		 */
 		private static function get_metadata_file_path_from_file_or_folder( string $file_or_folder, string $metadata_filename = self::METADATA_FILE_NAME ): string {
-			if ( $metadata_filename !== substr( $file_or_folder, strlen( $metadata_filename ) * -1 ) ) {
+			if ( substr( $file_or_folder, strlen( $metadata_filename ) * -1 ) !== $metadata_filename ) {
 				return sprintf( '%s%s', trailingslashit( $file_or_folder ), $metadata_filename );
 			}
 			return $file_or_folder;
