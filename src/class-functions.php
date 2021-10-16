@@ -262,7 +262,7 @@ if ( ! class_exists( Functions::class ) ) :
 		 *
 		 * @see       https://developer.wordpress.org/reference/functions/wp_should_load_block_editor_scripts_and_styles/
 		 * @since     1.0.0
-		 * @param     $extension
+		 * @param     array $extension    Extension data array.
 		 * @return    bool
 		 */
 		private static function should_load_extension_assets( $extension ) {
