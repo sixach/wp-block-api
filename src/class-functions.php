@@ -71,6 +71,7 @@ if ( ! class_exists( Functions::class ) ) :
 			}
 
 			// Extract metadata from passed configuration file.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			$metadata = json_decode( file_get_contents( $metadata_file ), true );
 			if ( ! is_array( $metadata ) || empty( $metadata['name'] ) ) {
 				// Bail early if the extracted object is invalid or if `name` is missing.
