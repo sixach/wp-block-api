@@ -71,6 +71,7 @@ if ( ! class_exists( Functions::class ) ) :
 			}
 
 			// Extract metadata from passed configuration file.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			$metadata = json_decode( file_get_contents( $metadata_file ), true );
 			if ( ! is_array( $metadata ) || empty( $metadata['name'] ) ) {
 				// Bail early if the extracted object is invalid or if `name` is missing.
@@ -261,7 +262,7 @@ if ( ! class_exists( Functions::class ) ) :
 		 *
 		 * @see       https://developer.wordpress.org/reference/functions/wp_should_load_block_editor_scripts_and_styles/
 		 * @since     1.0.0
-		 * @param     $extension
+		 * @param     array $extension    Extension data array.
 		 * @return    bool
 		 */
 		private static function should_load_extension_assets( $extension ) {
@@ -330,7 +331,7 @@ if ( ! class_exists( Functions::class ) ) :
 		 * @return    string                          Path to `extension.json` file.
 		 */
 		private static function get_metadata_file_path_from_file_or_folder( string $file_or_folder, string $metadata_filename = self::METADATA_FILE_NAME ): string {
-			if ( $metadata_filename !== substr( $file_or_folder, strlen( $metadata_filename ) * -1 ) ) {
+			if ( substr( $file_or_folder, strlen( $metadata_filename ) * -1 ) !== $metadata_filename ) {
 				return sprintf( '%s%s', trailingslashit( $file_or_folder ), $metadata_filename );
 			}
 			return $file_or_folder;
