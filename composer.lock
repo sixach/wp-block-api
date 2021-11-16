@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "904dc624c52d5802f50c927982ab923c",
+    "content-hash": "533bcf357b5357a8faf43b3077da4df7",
     "packages": [
         {
             "name": "sixach/wp-snippets",
-            "version": "v1.4.1",
+            "version": "v1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sixach/wp-snippets.git",
-                "reference": "016aa532b89c80e1f97127fc3a27043ac3a30f07"
+                "reference": "9cf6dbaa9857e4829aaea01ea26d2b5e34eda033"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sixach/wp-snippets/zipball/016aa532b89c80e1f97127fc3a27043ac3a30f07",
-                "reference": "016aa532b89c80e1f97127fc3a27043ac3a30f07",
+                "url": "https://api.github.com/repos/sixach/wp-snippets/zipball/9cf6dbaa9857e4829aaea01ea26d2b5e34eda033",
+                "reference": "9cf6dbaa9857e4829aaea01ea26d2b5e34eda033",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
                 "php-parallel-lint/php-parallel-lint": "^1.2.0",
                 "phpcompatibility/phpcompatibility-wp": "^2.1",
-                "phpunit/phpunit": "^7",
+                "phpunit/phpunit": "^9",
                 "woocommerce/woocommerce-git-hooks": "*",
                 "woocommerce/woocommerce-sniffs": "*",
                 "wp-cli/i18n-command": "^2.2.6",
@@ -39,20 +39,7 @@
                     "src"
                 ]
             },
-            "scripts": {
-                "lint:wpcs": [
-                    "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs"
-                ],
-                "lint:wpcbf": [
-                    "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
-                ],
-                "lint:php": [
-                    "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor --exclude node_modules ."
-                ],
-                "make-pot": [
-                    "wp i18n make-pot . languages/sixa-snippets.pot --exclude=build"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0"
             ],
@@ -65,14 +52,14 @@
             "description": "A plugin containing factory classes or methods for the Sixa projects.",
             "homepage": "https://www.sixa.ch",
             "keywords": [
-                "Plugin",
-                "WordPress"
+                "plugin",
+                "wordpress"
             ],
             "support": {
-                "source": "https://github.com/sixach/wp-snippets/tree/v1.4.1",
-                "issues": "https://github.com/sixach/wp-snippets/issues"
+                "issues": "https://github.com/sixach/wp-snippets/issues",
+                "source": "https://github.com/sixach/wp-snippets/tree/v1.4.2"
             },
-            "time": "2021-10-16T12:10:17+00:00"
+            "time": "2021-11-15T09:16:46+00:00"
         }
     ],
     "packages-dev": [
