@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d3cdc31c1146bc399b914b1e3b83fd6",
+    "content-hash": "a22fdef552ab1b6c69d38639dd9990b2",
     "packages": [
         {
             "name": "sixach/wp-snippets",
@@ -2180,7 +2180,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.3"
+        "php": ">=7.4"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
